@@ -4,6 +4,10 @@ import 'package:homefinder/core/variables/colors.dart';
 
 TextTheme appTextTheme = GoogleFonts.dmSansTextTheme(
   const TextTheme(
+    displaySmall: TextStyle(
+      fontWeight: FontWeight.w800,
+      color: AppColors.kWhite,
+    ),
     headlineSmall: TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.w400,
