@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
@@ -53,6 +54,7 @@ class GetStarted extends StatelessWidget {
               PrimaryButton(
                 'Get Started',
                 pressed: () {
+                  OnboardingRoute().go(context);
                   debugPrint('Pressed');
                 },
               ),
