@@ -161,32 +161,34 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget _buildPage(String image, String title, String description) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            image,
-            fit: BoxFit.contain,
-            height: 280,
-          ),
-          32.verticalSpacing,
-          AppText(
-            title,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: AppColors.kGray40,
-              fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              image,
+              fit: BoxFit.contain,
+              height: 280,
             ),
-            textAlign: TextAlign.center,
-          ),
-          16.verticalSpacing,
-          AppText(
-            description,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.kGray40,
+            32.verticalSpacing,
+            AppText(
+              title,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: AppColors.kGray40,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+            16.verticalSpacing,
+            AppText(
+              description,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: AppColors.kGray40,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
