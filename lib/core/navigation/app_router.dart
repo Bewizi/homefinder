@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:homefinder/features/auth/presentaion/pages/signup/sign_up.dart';
 import 'package:homefinder/features/getStarted/get_started.dart';
 import 'package:homefinder/features/onboarding/onboarding_screen.dart';
 import 'package:homefinder/features/splash_screen/splash_screen.dart';
@@ -35,4 +36,12 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const OnboardingScreen();
+}
+
+@TypedGoRoute<SignUpRoute>(path: SignUpRoute.path)
+class SignUpRoute extends GoRouteData with $SignUpRoute {
+  static const path = '/sign-up';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const SignUp();
 }
