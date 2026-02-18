@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
@@ -77,7 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _onFinish() {
-    // const GetStartedRoute().go(context);
+    SignUpRoute().go(context);
   }
 
   void _onSkip() {
