@@ -9,20 +9,19 @@ import 'package:homefinder/core/ui/components/app_text_field.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/variables/app_iconsize.dart';
-import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/app_svg.dart';
 import 'package:homefinder/core/variables/colors.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
 
-  static const routeName = '/sign-up';
+  static const String routeName = '/sign-in';
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -39,7 +38,7 @@ class _SignUpState extends State<SignUp> {
               ),
               4.verticalSpacing,
               AppText(
-                'Create Your Account',
+                'Welcome Back',
                 style:
                     Theme.of(
                       context,
@@ -50,7 +49,7 @@ class _SignUpState extends State<SignUp> {
               ),
               4.verticalSpacing,
               AppText(
-                'Your next home is just a few clicks away',
+                'Continue your home search in seconds.',
                 style: Theme.of(
                   context,
                 ).textTheme.bodySmall?.copyWith(color: AppColors.kGrey10),
@@ -67,46 +66,6 @@ class _SignUpState extends State<SignUp> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //  full name
-                    const AppTextField(
-                      title: 'Full Name',
-                      hintText: 'John Doe',
-                      keyboardType: TextInputType.name,
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.user,
-                        size: AppIconSize.regular,
-                      ),
-                    ),
-                    16.verticalSpacing,
-
-                    //  phone number
-                    AppTextField(
-                      title: 'Phone Number',
-                      hintText: '9000-000-000',
-                      keyboardType: TextInputType.phone,
-                      prefixIcon: Container(
-                        width: 60,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          color: AppColors.kGrey5,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(AppRadius.medium),
-                            bottomLeft: Radius.circular(AppRadius.medium),
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: AppText(
-                          '+234',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.kGrey30,
-                              ),
-                        ),
-                      ),
-                    ),
-                    16.verticalSpacing,
-
                     //  email address
                     const AppTextField(
                       title: 'Email Address',
@@ -120,24 +79,52 @@ class _SignUpState extends State<SignUp> {
                     16.verticalSpacing,
 
                     //  password
-                    const AppTextField(
-                      title: 'Password',
-                      hintText: '*****************',
-                      keyboardType: TextInputType.visiblePassword,
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.lock,
-                        size: AppIconSize.regular,
-                      ),
-                      obscureText: true,
-                      suffixIcon: Icon(
-                        FontAwesomeIcons.eye,
-                        size: AppIconSize.regular,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const AppTextField(
+                          title: 'Password',
+                          hintText: '*****************',
+                          keyboardType: TextInputType.visiblePassword,
+                          prefixIcon: Icon(
+                            FontAwesomeIcons.lock,
+                            size: AppIconSize.regular,
+                          ),
+                          obscureText: true,
+                          suffixIcon: Icon(
+                            FontAwesomeIcons.eye,
+                            size: AppIconSize.regular,
+                          ),
+                        ),
+
+                        8.verticalSpacing,
+
+                        //   forgot password
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: AppRichText(
+                            textAlign: TextAlign.end,
+                            spans: [
+                              TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () =>
+                                      ForgotPasswordRoute().go(context),
+                                text: 'Forgot password?',
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: AppColors.kPrimary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     24.verticalSpacing,
 
                     PrimaryButton(
-                      'Sign Up',
+                      'Sign In',
                       pressed: () {},
                     ),
                     16.verticalSpacing,
@@ -146,7 +133,7 @@ class _SignUpState extends State<SignUp> {
                         textAlign: TextAlign.center,
                         spans: [
                           TextSpan(
-                            text: 'Already have an account? ',
+                            text: 'Don’t have an account? ',
                             style:
                                 Theme.of(
                                   context,
@@ -157,8 +144,8 @@ class _SignUpState extends State<SignUp> {
                           ),
                           TextSpan(
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () => SignInRoute().go(context),
-                            text: 'Sign In',
+                              ..onTap = () => SignUpRoute().go(context),
+                            text: 'Sign Up',
                             style:
                                 Theme.of(
                                   context,
