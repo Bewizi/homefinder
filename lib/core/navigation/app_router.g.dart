@@ -11,6 +11,8 @@ List<RouteBase> get $appRoutes => [
   $getStartedRoute,
   $onboardingRoute,
   $signUpRoute,
+  $signInRoute,
+  $forgotPasswordRoute,
 ];
 
 RouteBase get $splashScreenRoute =>
@@ -95,6 +97,55 @@ mixin $SignUpRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/sign-up');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $signInRoute =>
+    GoRouteData.$route(path: '/sign-in', factory: $SignInRoute._fromState);
+
+mixin $SignInRoute on GoRouteData {
+  static SignInRoute _fromState(GoRouterState state) => SignInRoute();
+
+  @override
+  String get location => GoRouteData.$location('/sign-in');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $forgotPasswordRoute => GoRouteData.$route(
+  path: '/forgot-password',
+  factory: $ForgotPasswordRoute._fromState,
+);
+
+mixin $ForgotPasswordRoute on GoRouteData {
+  static ForgotPasswordRoute _fromState(GoRouterState state) =>
+      ForgotPasswordRoute();
+
+  @override
+  String get location => GoRouteData.$location('/forgot-password');
 
   @override
   void go(BuildContext context) => context.go(location);

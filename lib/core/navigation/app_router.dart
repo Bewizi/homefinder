@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:homefinder/features/auth/presentaion/pages/forgot/forgot_password.dart';
+import 'package:homefinder/features/auth/presentaion/pages/signin/sign_in.dart';
 import 'package:homefinder/features/auth/presentaion/pages/signup/sign_up.dart';
 import 'package:homefinder/features/getStarted/get_started.dart';
 import 'package:homefinder/features/onboarding/onboarding_screen.dart';
@@ -44,4 +46,21 @@ class SignUpRoute extends GoRouteData with $SignUpRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const SignUp();
+}
+
+@TypedGoRoute<SignInRoute>(path: SignInRoute.path)
+class SignInRoute extends GoRouteData with $SignInRoute {
+  static const path = '/sign-in';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const SignIn();
+}
+
+@TypedGoRoute<ForgotPasswordRoute>(path: ForgotPasswordRoute.path)
+class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
+  static const path = '/forgot-password';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ForgotPassword();
 }
