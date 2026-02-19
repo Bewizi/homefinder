@@ -74,7 +74,8 @@ class GetStarted extends StatelessWidget {
                           ),
                     ),
                     TextSpan(
-                      recognizer: TapGestureRecognizer()..onTap = () {},
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => SignInRoute().go(context),
                       text: 'Sign In',
                       style:
                           Theme.of(
