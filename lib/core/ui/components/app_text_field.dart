@@ -13,6 +13,9 @@ class AppTextField extends StatelessWidget {
     this.validator,
     this.keyboardType,
     this.obscureText = false,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.prefixIconConstraints,
     super.key,
   });
 
@@ -23,6 +26,9 @@ class AppTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
   final bool obscureText;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final BoxConstraints? prefixIconConstraints;
 
   Widget _buildTextFormField(BuildContext context) {
     return TextFormField(
@@ -32,6 +38,10 @@ class AppTextField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.medium),
           borderSide: const BorderSide(color: AppColors.kGrey5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.medium),
+          borderSide: const BorderSide(color: AppColors.kDestructive50),
         ),
         hintText: hintText,
         contentPadding: const EdgeInsets.symmetric(
@@ -44,6 +54,11 @@ class AppTextField extends StatelessWidget {
             ).textTheme.bodySmall?.copyWith(
               color: AppColors.kGray30,
             ),
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        prefixIconColor: AppColors.kGrey30,
+        suffixIconColor: AppColors.kGrey30,
+        prefixIconConstraints: prefixIconConstraints,
       ),
       keyboardType: keyboardType,
       obscureText: obscureText,
