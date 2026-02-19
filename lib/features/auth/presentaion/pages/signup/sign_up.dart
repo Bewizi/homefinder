@@ -23,6 +23,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  bool isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -120,17 +122,24 @@ class _SignUpState extends State<SignUp> {
                     16.verticalSpacing,
 
                     //  password
-                    const AppTextField(
+                    AppTextField(
                       title: 'Password',
                       hintText: '*****************',
                       keyboardType: TextInputType.visiblePassword,
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         FontAwesomeIcons.lock,
                         size: AppIconSize.regular,
                       ),
-                      obscureText: true,
+                      obscureText: !isPasswordVisible,
+                      onSuffixIconTap: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
                       suffixIcon: Icon(
-                        FontAwesomeIcons.eye,
+                        isPasswordVisible
+                            ? FontAwesomeIcons.eyeSlash
+                            : FontAwesomeIcons.eye,
                         size: AppIconSize.regular,
                       ),
                     ),
@@ -142,32 +151,34 @@ class _SignUpState extends State<SignUp> {
                     ),
                     16.verticalSpacing,
                     Center(
-                      child: AppRichText(
+                      child: RichText(
                         textAlign: TextAlign.center,
-                        spans: [
-                          TextSpan(
-                            text: 'Already have an account? ',
-                            style:
-                                Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.copyWith(
-                                  color: AppColors.kGrey70,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                          ),
-                          TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => SignInRoute().go(context),
-                            text: 'Sign In',
-                            style:
-                                Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.copyWith(
-                                  color: AppColors.kPrimary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        ],
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Already have an account? ',
+                              style:
+                                  Theme.of(
+                                    context,
+                                  ).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.kGrey70,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => SignInRoute().go(context),
+                              text: 'Sign In',
+                              style:
+                                  Theme.of(
+                                    context,
+                                  ).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.kPrimary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

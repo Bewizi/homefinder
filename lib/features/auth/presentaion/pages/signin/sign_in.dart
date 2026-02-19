@@ -22,6 +22,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  bool isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -82,17 +84,24 @@ class _SignInState extends State<SignIn> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const AppTextField(
+                        AppTextField(
                           title: 'Password',
                           hintText: '*****************',
                           keyboardType: TextInputType.visiblePassword,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             FontAwesomeIcons.lock,
                             size: AppIconSize.regular,
                           ),
-                          obscureText: true,
+                          obscureText: !isPasswordVisible,
+                          onSuffixIconTap: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
                           suffixIcon: Icon(
-                            FontAwesomeIcons.eye,
+                            isPasswordVisible
+                                ? FontAwesomeIcons.eyeSlash
+                                : FontAwesomeIcons.eye,
                             size: AppIconSize.regular,
                           ),
                         ),
