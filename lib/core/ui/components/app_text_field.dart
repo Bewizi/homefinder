@@ -16,6 +16,7 @@ class AppTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.prefixIconConstraints,
+    this.onSuffixIconTap,
     super.key,
   });
 
@@ -29,6 +30,7 @@ class AppTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final BoxConstraints? prefixIconConstraints;
+  final VoidCallback? onSuffixIconTap;
 
   Widget _buildTextFormField(BuildContext context) {
     return TextFormField(
@@ -43,6 +45,14 @@ class AppTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.medium),
           borderSide: const BorderSide(color: AppColors.kDestructive50),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.medium),
+          borderSide: const BorderSide(color: AppColors.kGrey5),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.medium),
+          borderSide: const BorderSide(color: AppColors.kGrey5),
+        ),
         hintText: hintText,
         contentPadding: const EdgeInsets.symmetric(
           vertical: 10,
@@ -55,7 +65,12 @@ class AppTextField extends StatelessWidget {
               color: AppColors.kGray30,
             ),
         prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
+        suffixIcon: suffixIcon != null
+            ? InkWell(
+                onTap: onSuffixIconTap,
+                child: suffixIcon,
+              )
+            : null,
         prefixIconColor: AppColors.kGrey30,
         suffixIconColor: AppColors.kGrey30,
         prefixIconConstraints: prefixIconConstraints,
