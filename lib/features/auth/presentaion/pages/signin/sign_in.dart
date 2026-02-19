@@ -134,7 +134,7 @@ class _SignInState extends State<SignIn> {
 
                     PrimaryButton(
                       'Sign In',
-                      pressed: () {},
+                      pressed: () => HomeRoute().go(context),
                     ),
                     16.verticalSpacing,
                     Center(
