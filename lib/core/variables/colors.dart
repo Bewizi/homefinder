@@ -16,4 +16,6 @@ class AppColors {
   static const Color kGrey80 = Color(0xFF171717);
   static const Color kDestructive50 = Color(0xFFF43F5E);
   static const Color kSuccess50 = Color(0xFF22C55E);
+  static const Color kWarning50 = Color(0xFFF59E0B);
+  static const Color kTransparent = Color(0x00000000);
 }
