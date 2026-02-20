@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "image": "assets/images/starlight_residence.png",
+    "image": "assets/images/Starlight Residence.png",
     "name": "Starlight Residence",
     "location": "Oyin Jolayemi Street, Lagos",
     "rating": 4.95,
@@ -15,8 +15,8 @@
   },
   {
     "id": "2",
-    "image": "assets/images/sunny_bungalow.png",
-    "name": "Sunny Bungalow",
+    "image": "assets/images/Maplewood Cottage.png",
+    "name": "Maplewood Cottage",
     "location": "Ikoyi, Lagos",
     "rating": 4.80,
     "type": "Bungalow",
@@ -28,7 +28,7 @@
   },
   {
     "id": "3",
-    "image": "assets/images/modern_duplex.png",
+    "image": "assets/images/Grove Homestead.jpg",
     "name": "Modern Duplex",
     "location": "Lekki Phase 1, Lagos",
     "rating": 4.90,
