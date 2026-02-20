@@ -36,7 +36,7 @@ class CounterView extends StatelessWidget {
               },
             ),
             const OutlineButton(
-              text: 'Get Started',
+              'Get Started',
             ),
           ],
         ),
