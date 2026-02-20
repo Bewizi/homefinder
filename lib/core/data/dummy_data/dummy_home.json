@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "image": "assets/images/starlight_residence.png",
+    "name": "Starlight Residence",
+    "location": "Oyin Jolayemi Street, Lagos",
+    "rating": 4.95,
+    "type": "Apartment",
+    "price_per_month": 2500,
+    "beds": 3,
+    "baths": 2,
+    "sqft": 1800,
+    "is_favourite": true,
+    "images": []
+  },
+  {
+    "id": "2",
+    "image": "assets/images/sunny_bungalow.png",
+    "name": "Sunny Bungalow",
+    "location": "Ikoyi, Lagos",
+    "rating": 4.80,
+    "type": "Bungalow",
+    "price_per_month": 3500,
+    "beds": 4,
+    "baths": 3,
+    "sqft": 2500,
+    "is_favourite": false
+  },
+  {
+    "id": "3",
+    "image": "assets/images/modern_duplex.png",
+    "name": "Modern Duplex",
+    "location": "Lekki Phase 1, Lagos",
+    "rating": 4.90,
+    "type": "Duplex",
+    "price_per_month": 4500,
+    "beds": 5,
+    "baths": 5,
+    "sqft": 3500,
+    "is_favourite": true
+  }
+]
