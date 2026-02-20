@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_card.dart';
@@ -6,9 +7,9 @@ import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/variables/app_iconsize.dart';
-import 'package:homefinder/core/variables/app_images.dart';
 import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
+import 'package:homefinder/features/home/presentation/bloc/homes_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -59,6 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         size: AppIconSize.medium,
                       ),
                       4.horizontalSpacing,
+                      AppText(
+                        'Lagos, Nigeria',
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                      ),
                     ],
                   ),
                 ],
@@ -80,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
           24.verticalSpacing,
           SizedBox(
             height: MediaQuery.sizeOf(context).height * 0.06,
-
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -88,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 final isActive = activeIndex == index;
                 return OutlineButton(
                   item,
-
                   borderColor: isActive
                       ? AppColors.kTransparent
                       : AppColors.kGrey5,
@@ -106,114 +112,191 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: homeFilter.length,
             ),
           ),
-
+          24.verticalSpacing,
           Expanded(
-            child: SingleChildScrollView(
-              child: AppCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
+            child: BlocBuilder<HomesBloc, HomesState>(
+              builder: (context, state) {
+                if (state is HomesLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is HomesError) {
+                  return Center(
+                    child: AppText(
+                      state.message,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  );
+                }
+                if (state is HomesLoaded) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(AppRadius.medium),
-                          child: Image.asset(
-                            AppImages.kStarlightResidence,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                //   rating
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.kWhite,
-                                    borderRadius: BorderRadius.circular(
-                                      AppRadius.fullRadius,
-                                    ),
-                                  ),
-                                  padding: const EdgeInsets.all(
-                                    4,
-                                  ),
-
-                                  child: Row(
+                        SizedBox(
+                          height: 350,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final home = state.homes[index];
+                              return SizedBox(
+                                width: MediaQuery.sizeOf(context).width * 0.8,
+                                child: AppCard(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const Icon(
-                                        FontAwesomeIcons.solidStar,
-                                        color: AppColors.kWarning50,
-                                        size: AppIconSize.small,
-                                      ),
-                                      4.horizontalSpacing,
-                                      AppText(
-                                        '4.95',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
-                                              color: AppColors.kGrey80,
-                                              fontWeight: FontWeight.w700,
+                                      Stack(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              AppRadius.medium,
                                             ),
+                                            child: Image.asset(
+                                              home.image,
+                                              fit: BoxFit.cover,
+                                              height: 200,
+                                              width: double.infinity,
+                                            ),
+                                          ),
+                                          Positioned.fill(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(12),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  //   rating
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.kWhite,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            AppRadius
+                                                                .fullRadius,
+                                                          ),
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 8,
+                                                          vertical: 4,
+                                                        ),
+                                                    child: Row(
+                                                      children: [
+                                                        const Icon(
+                                                          FontAwesomeIcons
+                                                              .solidStar,
+                                                          color: AppColors
+                                                              .kWarning50,
+                                                          size:
+                                                              AppIconSize.small,
+                                                        ),
+                                                        4.horizontalSpacing,
+                                                        AppText(
+                                                          home.rating
+                                                              .toString(),
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .bodySmall
+                                                              ?.copyWith(
+                                                                color: AppColors
+                                                                    .kGrey80,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                  //   heart icon
+                                                  IconConButton(
+                                                    shape: BoxShape.circle,
+                                                    borderColor:
+                                                        AppColors.kTransparent,
+                                                    bgColor: AppColors.kWhite,
+                                                    child: const Icon(
+                                                      FontAwesomeIcons.heart,
+                                                      // home.isFavorite
+                                                      //     ? FontAwesomeIcons.solidHeart
+                                                      //     : FontAwesomeIcons.heart,
+                                                      color: AppColors.kPrimary,
+                                                    ),
+                                                    pressed: () {},
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      16.verticalSpacing,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            home.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall
+                                                ?.copyWith(
+                                                  color: AppColors.kGrey80,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                          ),
+                                          16.verticalSpacing,
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                FontAwesomeIcons.locationDot,
+                                                color: AppColors.kGrey30,
+                                                size: AppIconSize.small,
+                                              ),
+                                              8.horizontalSpacing,
+                                              Expanded(
+                                                child: AppText(
+                                                  home.location,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall
+                                                      ?.copyWith(
+                                                        color:
+                                                            AppColors.kGrey30,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ),
-
-                                //   heart icon
-                                const IconConButton(
-                                  shape: BoxShape.circle,
-                                  borderColor: AppColors.kTransparent,
-                                  child: Icon(
-                                    FontAwesomeIcons.heart,
-                                    color: AppColors.kPrimary,
-                                  ),
-                                ),
-                                // AppText('YouTube'),
-                              ],
-                            ),
+                              );
+                            },
+                            separatorBuilder: (_, _) => 24.horizontalSpacing,
+                            itemCount: state.homes.length,
                           ),
                         ),
                       ],
                     ),
-                    16.verticalSpacing,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText(
-                          'Starlight Residence',
-                          style: Theme.of(context).textTheme.titleSmall
-                              ?.copyWith(
-                                color: AppColors.kGrey80,
-                                fontWeight: FontWeight.w500,
-                              ),
-                        ),
-                        16.verticalSpacing,
-                        Row(
-                          children: [
-                            const Icon(
-                              FontAwesomeIcons.locationDot,
-                              color: AppColors.kGrey30,
-                              size: AppIconSize.small,
-                            ),
-                            8.horizontalSpacing,
-                            AppText(
-                              'Oyin Jolayemi Street, Lagos',
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(
-                                    color: AppColors.kGrey30,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                  );
+                }
+                return Center(
+                  child: AppText(
+                    'No Data',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                );
+              },
             ),
           ),
         ],
