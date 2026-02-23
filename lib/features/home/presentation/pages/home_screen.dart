@@ -240,15 +240,53 @@ class _HomeScreenState extends State<HomeScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          AppText(
-                                            home.name,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall
-                                                ?.copyWith(
-                                                  color: AppColors.kGrey80,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              AppText(
+                                                home.name,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall
+                                                    ?.copyWith(
+                                                      color: AppColors.kGrey80,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                              ),
+
+                                              AppRichText(
+                                                spans: [
+                                                  TextSpan(
+                                                    text:
+                                                        '#${home.price_per_month}M',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headlineSmall
+                                                        ?.copyWith(
+                                                          color: AppColors
+                                                              .kPrimary,
+                                                          fontWeight:
+                                                              FontWeight.w800,
+                                                          fontSize: 20,
+                                                        ),
+                                                  ),
+                                                  TextSpan(
+                                                    text: '/year',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall
+                                                        ?.copyWith(
+                                                          color:
+                                                              AppColors.kGrey40,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                           16.verticalSpacing,
                                           Row(
