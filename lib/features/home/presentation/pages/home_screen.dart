@@ -41,35 +41,41 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText(
-                    'Location',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: AppColors.kGray30),
-                  ),
-                  8.verticalSpacing,
-                  Row(
-                    children: [
-                      //   location icon and address
-                      const Icon(
-                        FontAwesomeIcons.locationDot,
-                        color: AppColors.kPrimary,
-                        size: AppIconSize.medium,
-                      ),
-                      4.horizontalSpacing,
-                      AppText(
-                        'Lagos, Nigeria',
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                      ),
-                    ],
-                  ),
-                ],
+              // allow the location column to shrink if needed
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      'Location',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: AppColors.kGray30),
+                    ),
+                    8.verticalSpacing,
+                    Row(
+                      children: [
+                        //   location icon and address
+                        const Icon(
+                          FontAwesomeIcons.locationDot,
+                          color: AppColors.kPrimary,
+                          size: AppIconSize.medium,
+                        ),
+                        4.horizontalSpacing,
+                        Expanded(
+                          child: AppText(
+                            'Lagos, Nigeria',
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
 
               const IconConButton(
@@ -134,6 +140,34 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AppText(
+                              'Homes Near You',
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: AppColors.kGray50,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+
+                            GestureDetector(
+                              child: AppText(
+                                'See all',
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: AppColors.kPrimary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        8.verticalSpacing,
+
+                        //   homes list
                         SizedBox(
                           height: 350,
                           child: ListView.separated(
@@ -244,18 +278,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              AppText(
-                                                home.name,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall
-                                                    ?.copyWith(
-                                                      color: AppColors.kGrey80,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
+                                              // name: allow shrinking with ellipsis
+                                              Expanded(
+                                                child: AppText(
+                                                  home.name,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleSmall
+                                                      ?.copyWith(
+                                                        color:
+                                                            AppColors.kGrey80,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
                                               ),
 
+                                              // price
                                               AppRichText(
                                                 spans: [
                                                   TextSpan(
@@ -289,6 +331,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ],
                                           ),
                                           16.verticalSpacing,
+
+                                          // location
                                           Row(
                                             children: [
                                               const Icon(
@@ -309,6 +353,104 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         fontWeight:
                                                             FontWeight.w500,
                                                       ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+                                          16.verticalSpacing,
+
+                                          Row(
+                                            children: [
+                                              // bedrooms
+                                              IntrinsicHeight(
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(
+                                                      FontAwesomeIcons.bed,
+                                                      size: AppIconSize.regular,
+                                                      color: AppColors.kGrey30,
+                                                    ),
+                                                    8.horizontalSpacing,
+                                                    AppText(
+                                                      '${home.beds} Bedrooms',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall
+                                                          ?.copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: AppColors
+                                                                .kGrey30,
+                                                          ),
+                                                    ),
+
+                                                    const VerticalDivider(
+                                                      thickness: 1,
+                                                      color: AppColors.kGrey30,
+
+                                                      width: 16,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+
+                                              // bathrooms
+                                              IntrinsicHeight(
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(
+                                                      FontAwesomeIcons.bath,
+                                                      size: AppIconSize.regular,
+                                                      color: AppColors.kGrey30,
+                                                    ),
+                                                    8.horizontalSpacing,
+                                                    AppText(
+                                                      '${home.baths} Baths',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall
+                                                          ?.copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: AppColors
+                                                                .kGrey30,
+                                                          ),
+                                                    ),
+
+                                                    const VerticalDivider(
+                                                      thickness: 1,
+                                                      color: AppColors.kGrey30,
+
+                                                      width: 16,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+
+                                              // square footage
+                                              IntrinsicHeight(
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(
+                                                      FontAwesomeIcons.ruler,
+                                                      size: AppIconSize.regular,
+                                                      color: AppColors.kGrey30,
+                                                    ),
+                                                    8.horizontalSpacing,
+                                                    AppText(
+                                                      '${home.sqft} sqft',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall
+                                                          ?.copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: AppColors
+                                                                .kGrey30,
+                                                          ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ],

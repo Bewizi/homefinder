@@ -19,11 +19,11 @@ class HomesDomain {
       image: json['image'] as String,
       rating: (json['rating'] as num).toDouble(),
       location: json['location'] as String,
-      price_per_month: (json['price_per_month'] as num).toDouble(),
+      price_per_month: json['price_per_month'] as String,
       type: json['type'] as String,
-      beds: (json['beds'] as num).toDouble(),
-      baths: (json['baths'] as num).toDouble(),
-      sqft: (json['sqft'] as num).toDouble(),
+      beds: json['beds'] as String,
+      baths: json['baths'] as String,
+      sqft: json['sqft'] as String,
     );
   }
 
@@ -33,10 +33,10 @@ class HomesDomain {
   final double rating;
   final String location;
   final String type;
-  final double beds;
-  final double baths;
-  final double sqft;
-  final double price_per_month;
+  final String beds;
+  final String baths;
+  final String sqft;
+  final String price_per_month;
 
   HomesDomain copyWith({
     String? id,
@@ -45,10 +45,10 @@ class HomesDomain {
     double? rating,
     String? location,
     String? type,
-    double? beds,
-    double? baths,
-    double? sqft,
-    double? price_per_month,
+    String? beds,
+    String? baths,
+    String? sqft,
+    String? price_per_month,
   }) {
     return HomesDomain(
       id: this.id,
