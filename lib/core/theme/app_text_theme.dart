@@ -14,6 +14,11 @@ TextTheme appTextTheme = GoogleFonts.dmSansTextTheme(
       color: AppColors.kWhite,
     ),
 
+    titleMedium: TextStyle(
+      fontWeight: FontWeight.w800,
+      color: AppColors.kWhite,
+    ),
+
     titleSmall: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,
