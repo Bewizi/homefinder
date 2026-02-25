@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_card.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
@@ -153,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
 
                             GestureDetector(
+                              onTap: () => SeeAllHomesRoute().go(context),
                               child: AppText(
                                 'See all',
                                 style: Theme.of(context).textTheme.bodySmall
@@ -463,7 +465,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                             separatorBuilder: (_, _) => 24.horizontalSpacing,
-                            itemCount: state.homes.length > 3 ? 3 : state.homes.length,
+                            itemCount: state.homes.length > 3
+                                ? 3
+                                : state.homes.length,
                           ),
                         ),
                       ],
