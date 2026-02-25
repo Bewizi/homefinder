@@ -463,7 +463,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                             separatorBuilder: (_, _) => 24.horizontalSpacing,
-                            itemCount: state.homes.length,
+                            itemCount: state.homes.length > 3 ? 3 : state.homes.length,
                           ),
                         ),
                       ],
