@@ -7,6 +7,7 @@ import 'package:homefinder/features/auth/presentaion/pages/signin/sign_in.dart';
 import 'package:homefinder/features/auth/presentaion/pages/signup/sign_up.dart';
 import 'package:homefinder/features/getStarted/get_started.dart';
 import 'package:homefinder/features/home/presentation/pages/home_screen.dart';
+import 'package:homefinder/features/home/presentation/pages/see_all_homes.dart';
 import 'package:homefinder/features/onboarding/onboarding_screen.dart';
 import 'package:homefinder/features/splash_screen/splash_screen.dart';
 
@@ -17,6 +18,7 @@ final appRouter = GoRouter(
   initialLocation: SplashScreenRoute.path,
 );
 
+// entry point
 @TypedGoRoute<SplashScreenRoute>(path: SplashScreenRoute.path)
 class SplashScreenRoute extends GoRouteData with $SplashScreenRoute {
   static const path = '/';
@@ -26,6 +28,7 @@ class SplashScreenRoute extends GoRouteData with $SplashScreenRoute {
       const SplashScreen();
 }
 
+//get started
 @TypedGoRoute<GetStartedRoute>(path: GetStartedRoute.path)
 class GetStartedRoute extends GoRouteData with $GetStartedRoute {
   static const path = '/get-started';
@@ -34,6 +37,7 @@ class GetStartedRoute extends GoRouteData with $GetStartedRoute {
   Widget build(BuildContext context, GoRouterState state) => const GetStarted();
 }
 
+//  onboarding
 @TypedGoRoute<OnboardingRoute>(path: OnboardingRoute.path)
 class OnboardingRoute extends GoRouteData with $OnboardingRoute {
   static const path = '/onboarding';
@@ -43,6 +47,7 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
       const OnboardingScreen();
 }
 
+//  sign up
 @TypedGoRoute<SignUpRoute>(path: SignUpRoute.path)
 class SignUpRoute extends GoRouteData with $SignUpRoute {
   static const path = '/sign-up';
@@ -51,6 +56,7 @@ class SignUpRoute extends GoRouteData with $SignUpRoute {
   Widget build(BuildContext context, GoRouterState state) => const SignUp();
 }
 
+//  sign in
 @TypedGoRoute<SignInRoute>(path: SignInRoute.path)
 class SignInRoute extends GoRouteData with $SignInRoute {
   static const path = '/sign-in';
@@ -59,6 +65,7 @@ class SignInRoute extends GoRouteData with $SignInRoute {
   Widget build(BuildContext context, GoRouterState state) => const SignIn();
 }
 
+// forgot password
 @TypedGoRoute<ForgotPasswordRoute>(path: ForgotPasswordRoute.path)
 class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
   static const path = '/forgot-password';
@@ -68,7 +75,17 @@ class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
       const ForgotPassword();
 }
 
-//MAIN APP SHELL WITH BOTTOM NAV  (NESTESD ROUTING)
+// see all homes
+@TypedGoRoute<SeeAllHomesRoute>(path: SeeAllHomesRoute.path)
+class SeeAllHomesRoute extends GoRouteData with $SeeAllHomesRoute {
+  static const path = '/see-all-homes';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const SeeAllHomes();
+}
+
+//MAIN APP SHELL WITH BOTTOM NAV  (NESTED ROUTING)
 @TypedStatefulShellRoute<AppShellRouteData>(
   branches: [
     TypedStatefulShellBranch<HomeBranchData>(
