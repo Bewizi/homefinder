@@ -10,7 +10,8 @@ import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
-import 'package:homefinder/features/home/presentation/bloc/homes_bloc.dart';
+import 'package:homefinder/features/home/presentation/homes_bloc/homes_bloc.dart';
+import 'package:homefinder/features/home/presentation/pages/recommended_homes_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,11 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //   location and notification
+          // 1. Location and Notification (FIXED at top)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // allow the location column to shrink if needed
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     8.verticalSpacing,
                     Row(
                       children: [
-                        //   location icon and address
                         const Icon(
                           FontAwesomeIcons.locationDot,
                           color: AppColors.kPrimary,
@@ -78,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-
               const IconConButton(
                 borderRadius: AppRadius.medium,
                 bgColor: AppColors.kWhite,
@@ -93,6 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           24.verticalSpacing,
+
+          // 2. Home Filter (FIXED at top)
           SizedBox(
             height: MediaQuery.sizeOf(context).height * 0.06,
             child: ListView.separated(
@@ -120,167 +120,164 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           24.verticalSpacing,
+
+          // 3. Scrollable Area (Homes Near You & Recommended Homes)
           Expanded(
-            child: BlocBuilder<HomesBloc, HomesState>(
-              builder: (context, state) {
-                if (state is HomesLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (state is HomesError) {
-                  return Center(
-                    child: AppText(
-                      state.message,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                  );
-                }
-                if (state is HomesLoaded) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // Homes Near You Section
+                  BlocBuilder<HomesBloc, HomesState>(
+                    builder: (context, state) {
+                      if (state is HomesLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (state is HomesError) {
+                        return Center(
+                          child: AppText(
+                            state.message,
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                        );
+                      }
+                      if (state is HomesLoaded) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AppText(
-                              'Homes Near You',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: AppColors.kGray50,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                            ),
-
-                            GestureDetector(
-                              onTap: () => SeeAllHomesRoute().go(context),
-                              child: AppText(
-                                'See all',
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(
-                                      color: AppColors.kPrimary,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        8.verticalSpacing,
-
-                        //   homes list
-                        SizedBox(
-                          height: 350,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              final home = state.homes[index];
-                              return SizedBox(
-                                width: MediaQuery.sizeOf(context).width * 0.8,
-                                child: AppCard(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Stack(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                              AppRadius.medium,
-                                            ),
-                                            child: Image.asset(
-                                              home.image,
-                                              fit: BoxFit.cover,
-                                              height: 200,
-                                              width: double.infinity,
-                                            ),
-                                          ),
-                                          Positioned.fill(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(12),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  //   rating
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors.kWhite,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            AppRadius
-                                                                .fullRadius,
-                                                          ),
-                                                    ),
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                          horizontal: 8,
-                                                          vertical: 4,
-                                                        ),
-                                                    child: Row(
-                                                      children: [
-                                                        const Icon(
-                                                          FontAwesomeIcons
-                                                              .solidStar,
-                                                          color: AppColors
-                                                              .kWarning50,
-                                                          size:
-                                                              AppIconSize.small,
-                                                        ),
-                                                        4.horizontalSpacing,
-                                                        AppText(
-                                                          home.rating
-                                                              .toString(),
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .bodySmall
-                                                              ?.copyWith(
-                                                                color: AppColors
-                                                                    .kGrey80,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                              ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-
-                                                  //   heart icon
-                                                  IconConButton(
-                                                    shape: BoxShape.circle,
-                                                    borderColor:
-                                                        AppColors.kTransparent,
-                                                    bgColor: AppColors.kWhite,
-                                                    child: const Icon(
-                                                      FontAwesomeIcons.heart,
-                                                      // home.isFavorite
-                                                      //     ? FontAwesomeIcons.solidHeart
-                                                      //     : FontAwesomeIcons.heart,
-                                                      color: AppColors.kPrimary,
-                                                    ),
-                                                    pressed: () {},
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AppText(
+                                  'Homes Near You',
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: AppColors.kGray50,
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                      16.verticalSpacing,
-                                      Column(
+                                ),
+                                GestureDetector(
+                                  onTap: () => SeeAllHomesRoute().go(context),
+                                  child: AppText(
+                                    'See all',
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: AppColors.kPrimary,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            8.verticalSpacing,
+                            SizedBox(
+                              height: 350,
+                              child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  final home = state.homes[index];
+                                  return SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.8,
+                                    child: AppCard(
+                                      child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          Stack(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                      AppRadius.medium,
+                                                    ),
+                                                child: Image.asset(
+                                                  home.image,
+                                                  fit: BoxFit.cover,
+                                                  height: 200,
+                                                  width: double.infinity,
+                                                ),
+                                              ),
+                                              Positioned.fill(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                    12,
+                                                  ),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                          color:
+                                                              AppColors.kWhite,
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                AppRadius
+                                                                    .fullRadius,
+                                                              ),
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets.symmetric(
+                                                              horizontal: 8,
+                                                              vertical: 4,
+                                                            ),
+                                                        child: Row(
+                                                          children: [
+                                                            const Icon(
+                                                              FontAwesomeIcons
+                                                                  .solidStar,
+                                                              color: AppColors
+                                                                  .kWarning50,
+                                                              size: AppIconSize
+                                                                  .small,
+                                                            ),
+                                                            4.horizontalSpacing,
+                                                            AppText(
+                                                              home.rating
+                                                                  .toString(),
+                                                              style: Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodySmall
+                                                                  ?.copyWith(
+                                                                    color: AppColors
+                                                                        .kGrey80,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                  ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      IconConButton(
+                                                        shape: BoxShape.circle,
+                                                        borderColor: AppColors
+                                                            .kTransparent,
+                                                        bgColor:
+                                                            AppColors.kWhite,
+                                                        child: const Icon(
+                                                          FontAwesomeIcons
+                                                              .heart,
+                                                          color: AppColors
+                                                              .kPrimary,
+                                                        ),
+                                                        pressed: () {},
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          16.verticalSpacing,
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              // name: allow shrinking with ellipsis
                                               Expanded(
                                                 child: AppText(
                                                   home.name,
@@ -298,8 +295,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       ),
                                                 ),
                                               ),
-
-                                              // price
                                               AppRichText(
                                                 spans: [
                                                   TextSpan(
@@ -333,8 +328,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ],
                                           ),
                                           16.verticalSpacing,
-
-                                          // location
                                           Row(
                                             children: [
                                               const Icon(
@@ -359,132 +352,87 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                             ],
                                           ),
-
                                           16.verticalSpacing,
-
-                                          Row(
-                                            children: [
-                                              // bedrooms
-                                              IntrinsicHeight(
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      FontAwesomeIcons.bed,
-                                                      size: AppIconSize.regular,
-                                                      color: AppColors.kGrey30,
-                                                    ),
-                                                    8.horizontalSpacing,
-                                                    AppText(
-                                                      '${home.beds} Bedrooms',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall
-                                                          ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: AppColors
-                                                                .kGrey30,
-                                                          ),
-                                                    ),
-
-                                                    const VerticalDivider(
-                                                      thickness: 1,
-                                                      color: AppColors.kGrey30,
-
-                                                      width: 16,
-                                                    ),
-                                                  ],
+                                          IntrinsicHeight(
+                                            child: Row(
+                                              children: [
+                                                _buildFeature(
+                                                  FontAwesomeIcons.bed,
+                                                  '${home.beds} Beds',
+                                                  context,
                                                 ),
-                                              ),
-
-                                              // bathrooms
-                                              IntrinsicHeight(
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      FontAwesomeIcons.bath,
-                                                      size: AppIconSize.regular,
-                                                      color: AppColors.kGrey30,
-                                                    ),
-                                                    8.horizontalSpacing,
-                                                    AppText(
-                                                      '${home.baths} Baths',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall
-                                                          ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: AppColors
-                                                                .kGrey30,
-                                                          ),
-                                                    ),
-
-                                                    const VerticalDivider(
-                                                      thickness: 1,
-                                                      color: AppColors.kGrey30,
-
-                                                      width: 16,
-                                                    ),
-                                                  ],
+                                                const VerticalDivider(
+                                                  thickness: 1,
+                                                  color: AppColors.kGrey30,
+                                                  width: 16,
                                                 ),
-                                              ),
-
-                                              // square footage
-                                              IntrinsicHeight(
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      FontAwesomeIcons.ruler,
-                                                      size: AppIconSize.regular,
-                                                      color: AppColors.kGrey30,
-                                                    ),
-                                                    8.horizontalSpacing,
-                                                    AppText(
-                                                      '${home.sqft} sqft',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall
-                                                          ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: AppColors
-                                                                .kGrey30,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                _buildFeature(
+                                                  FontAwesomeIcons.bath,
+                                                  '${home.baths} Baths',
+                                                  context,
                                                 ),
-                                              ),
-                                            ],
+                                                const VerticalDivider(
+                                                  thickness: 1,
+                                                  color: AppColors.kGrey30,
+                                                  width: 16,
+                                                ),
+                                                _buildFeature(
+                                                  FontAwesomeIcons.ruler,
+                                                  '${home.sqft} sqft',
+                                                  context,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (_, _) => 24.horizontalSpacing,
-                            itemCount: state.homes.length > 3
-                                ? 3
-                                : state.homes.length,
-                          ),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (_, _) =>
+                                    24.horizontalSpacing,
+                                itemCount: state.homes.length > 3
+                                    ? 3
+                                    : state.homes.length,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      return Center(
+                        child: AppText(
+                          'No Data',
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
-                      ],
-                    ),
-                  );
-                }
-                return Center(
-                  child: AppText(
-                    'No Data',
-                    style: Theme.of(context).textTheme.headlineSmall,
+                      );
+                    },
                   ),
-                );
-              },
+                  24.verticalSpacing,
+
+                  // Recommended Homes Section
+                  const RecommendedHomesView(),
+                ],
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFeature(IconData icon, String text, BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: AppIconSize.regular, color: AppColors.kGrey30),
+        8.horizontalSpacing,
+        AppText(
+          text,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: AppColors.kGrey30,
+          ),
+        ),
+      ],
     );
   }
 }
