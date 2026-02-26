@@ -10,7 +10,7 @@ import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
-import 'package:homefinder/features/home/presentation/bloc/homes_bloc.dart';
+import 'package:homefinder/features/home/presentation/homes_bloc/homes_bloc.dart';
 
 class SeeAllHomes extends StatefulWidget {
   const SeeAllHomes({super.key});
@@ -32,10 +32,10 @@ class _SeeAllHomesState extends State<SeeAllHomes> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // search for home base on the name
-              const Expanded(
+              Expanded(
                 child: SizedBox(
-                  width: double.infinity,
-                  child: AppTextField(
+                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  child: const AppTextField(
                     hintText: 'search by city, street.....',
                     prefixIcon: Icon(FontAwesomeIcons.magnifyingGlass),
                   ),
