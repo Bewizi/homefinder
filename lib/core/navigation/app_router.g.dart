@@ -196,6 +196,27 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
         GoRouteData.$route(path: '/home', factory: $HomeRoute._fromState),
       ],
     ),
+    StatefulShellBranchData.$branch(
+      routes: [
+        GoRouteData.$route(path: '/saved', factory: $SavedPageRoute._fromState),
+      ],
+    ),
+    StatefulShellBranchData.$branch(
+      routes: [
+        GoRouteData.$route(
+          path: '/messages',
+          factory: $MessagesPageRoute._fromState,
+        ),
+      ],
+    ),
+    StatefulShellBranchData.$branch(
+      routes: [
+        GoRouteData.$route(
+          path: '/profile',
+          factory: $ProfilePageRoute._fromState,
+        ),
+      ],
+    ),
   ],
 );
 
@@ -209,6 +230,67 @@ mixin $HomeRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/home');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $SavedPageRoute on GoRouteData {
+  static SavedPageRoute _fromState(GoRouterState state) => SavedPageRoute();
+
+  @override
+  String get location => GoRouteData.$location('/saved');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $MessagesPageRoute on GoRouteData {
+  static MessagesPageRoute _fromState(GoRouterState state) =>
+      MessagesPageRoute();
+
+  @override
+  String get location => GoRouteData.$location('/messages');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $ProfilePageRoute on GoRouteData {
+  static ProfilePageRoute _fromState(GoRouterState state) => ProfilePageRoute();
+
+  @override
+  String get location => GoRouteData.$location('/profile');
 
   @override
   void go(BuildContext context) => context.go(location);
