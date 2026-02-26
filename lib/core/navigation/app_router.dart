@@ -8,6 +8,7 @@ import 'package:homefinder/features/auth/presentaion/pages/signup/sign_up.dart';
 import 'package:homefinder/features/getStarted/get_started.dart';
 import 'package:homefinder/features/home/presentation/pages/home_screen.dart';
 import 'package:homefinder/features/home/presentation/pages/see_all_homes.dart';
+import 'package:homefinder/features/messages/presentation/pages/messages_page.dart';
 import 'package:homefinder/features/onboarding/onboarding_screen.dart';
 import 'package:homefinder/features/splash_screen/splash_screen.dart';
 
@@ -91,6 +92,15 @@ class SeeAllHomesRoute extends GoRouteData with $SeeAllHomesRoute {
     TypedStatefulShellBranch<HomeBranchData>(
       routes: [TypedGoRoute<HomeRoute>(path: '/home')],
     ),
+    TypedStatefulShellBranch<SavedBranchData>(
+      routes: [TypedGoRoute<SavedPageRoute>(path: '/saved')],
+    ),
+    TypedStatefulShellBranch<MessagesBranchData>(
+      routes: [TypedGoRoute<MessagesPageRoute>(path: '/messages')],
+    ),
+    TypedStatefulShellBranch<ProfileBranchData>(
+      routes: [TypedGoRoute<ProfilePageRoute>(path: '/profile')],
+    ),
   ],
 )
 class AppShellRouteData extends StatefulShellRouteData {
@@ -111,10 +121,40 @@ class HomeBranchData extends StatefulShellBranchData {
   const HomeBranchData();
 }
 
-// Route classes (no annotations for nested routes)
+class SavedBranchData extends StatefulShellBranchData {
+  const SavedBranchData();
+}
+
+class MessagesBranchData extends StatefulShellBranchData {
+  const MessagesBranchData();
+}
+
+class ProfileBranchData extends StatefulShellBranchData {
+  const ProfileBranchData();
+}
+
+// Route classes
 class HomeRoute extends GoRouteData with $HomeRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) => const HomeScreen();
+}
+
+class SavedPageRoute extends GoRouteData with $SavedPageRoute {
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const Scaffold(body: Center(child: Text('Saved Page')));
+}
+
+class MessagesPageRoute extends GoRouteData with $MessagesPageRoute {
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const MessagesPage();
+}
+
+class ProfilePageRoute extends GoRouteData with $ProfilePageRoute {
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const Scaffold(body: Center(child: Text('Profile Page')));
 }
 
 // Bottom nav scaffold
