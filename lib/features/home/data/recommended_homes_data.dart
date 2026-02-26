@@ -9,7 +9,7 @@ class RecommendedHomesData implements RecommendedHomesRepository {
   Future<List<RecommendedHomesDomain>> getAllRecommendedHomes() async {
     try {
       final allRecommendedHomes = await rootBundle.loadString(
-        'lib/core/data/dummy_data/dummy_home.json',
+        'lib/core/data/dummy_data/dummy_recommended_homes.json',
       );
       final list = json.decode(allRecommendedHomes) as List;
       return list
