@@ -18,7 +18,8 @@ This project contains 3 flavors:
 - staging
 - production
 
-To run the desired flavor either use the launch configuration in VSCode/Android Studio or use the following commands:
+To run the desired flavor either use the launch configuration in VSCode/Android Studio or use the
+following commands:
 
 ```sh
 # Development
@@ -43,7 +44,8 @@ To run all unit and widget tests use the following command:
 $ very_good test --coverage --test-randomize-ordering-seed random
 ```
 
-To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
+To view the generated coverage report you can
+use [lcov](https://github.com/linux-test-project/lcov).
 
 ```sh
 # Generate Coverage Report
@@ -57,15 +59,17 @@ $ open coverage/index.html
 
 ## Bloc Lints 🔍
 
-This project uses the [bloc_lint](https://pub.dev/packages/bloc_lint) package to enforce best practices using [bloc](https://pub.dev/packages/bloc).
+This project uses the [bloc_lint](https://pub.dev/packages/bloc_lint) package to enforce best
+practices using [bloc](https://pub.dev/packages/bloc).
 
 To validate linter errors, run
 
 ```bash
-dart run bloc_tools:bloc lint .
+dart run bloc_tools:homes_bloc lint .
 ```
 
-You can also validate with VSCode-based IDEs using the [official bloc extension](https://marketplace.visualstudio.com/items?itemName=FelixAngelov.bloc).
+You can also validate with VSCode-based IDEs using
+the [official bloc extension](https://marketplace.visualstudio.com/items?itemName=FelixAngelov.bloc).
 
 To learn more, visit https://bloclibrary.dev/lint/
 
@@ -73,7 +77,8 @@ To learn more, visit https://bloclibrary.dev/lint/
 
 ## Working with Translations 🌐
 
-This project relies on [flutter_localizations][flutter_localizations_link] and follows the [official internationalization guide for Flutter][internationalization_link].
+This project relies on [flutter_localizations][flutter_localizations_link] and follows
+the [official internationalization guide for Flutter][internationalization_link].
 
 ### Adding Strings
 
@@ -119,7 +124,8 @@ Widget build(BuildContext context) {
 
 ### Adding Supported Locales
 
-Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info.plist` to include the new locale.
+Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info.plist` to include
+the new locale.
 
 ```xml
     ...
@@ -183,10 +189,17 @@ flutter gen-l10n --arb-dir="lib/l10n/arb"
 Alternatively, run `flutter run` and code generation will take place automatically.
 
 [coverage_badge]: coverage_badge.svg
+
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
+
 [internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization
+
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
+
 [license_link]: https://opensource.org/licenses/MIT
+
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
+
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
+
 [very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
