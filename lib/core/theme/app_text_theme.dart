@@ -20,13 +20,10 @@ TextTheme appTextTheme = GoogleFonts.dmSansTextTheme(
     ),
 
     titleSmall: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      color: AppColors.kWhite,
+      fontWeight: FontWeight.w700,
     ),
 
     bodySmall: TextStyle(
-      fontSize: 12,
       fontWeight: FontWeight.w400,
     ),
   ),
