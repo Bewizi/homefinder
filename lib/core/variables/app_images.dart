@@ -11,4 +11,7 @@ class AppImages {
   //   home near me images
   static const String kStarlightResidence =
       'assets/images/Starlight Residence.png';
+
+  //   users
+  static const String kEleanorPena = 'assets/images/Eleanor Pena.jpg';
 }
