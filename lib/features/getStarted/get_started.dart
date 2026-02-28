@@ -4,6 +4,7 @@ import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
+import 'package:homefinder/core/ui/extensions/app_theme_extension.dart';
 import 'package:homefinder/core/variables/app_images.dart';
 import 'package:homefinder/core/variables/colors.dart';
 
@@ -40,14 +41,18 @@ class GetStarted extends StatelessWidget {
             children: [
               AppText(
                 'Discover your Perfect Rental Home Just a Tap Away',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: context.textTheme.headlineSmall?.copyWith(
+                  color: AppColors.kWhite,
+                ),
                 textAlign: TextAlign.center,
               ),
               16.verticalSpacing,
               AppText(
                 'Search, compare, and rent your home - fast and easy with '
                 'Homefinder. Thousands of listing. Zero hassle.',
-                style: Theme.of(context).textTheme.titleSmall,
+                style: context.textTheme.titleSmall?.copyWith(
+                  color: AppColors.kWhite,
+                ),
                 textAlign: TextAlign.center,
               ),
               32.verticalSpacing,
