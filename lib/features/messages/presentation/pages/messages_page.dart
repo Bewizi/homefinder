@@ -45,7 +45,7 @@ class MessagesPage extends StatelessWidget {
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': false,
       'time': '02:45',
-      'unreadCount': '',
+      'unreadCount': null,
     },
     {
       'imageUrl': AppImages.kEleanorPena,
@@ -69,7 +69,7 @@ class MessagesPage extends StatelessWidget {
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': false,
       'time': '01:10',
-      'unreadCount': '',
+      'unreadCount': null,
     },
     {
       'imageUrl': AppImages.kEleanorPena,
@@ -77,7 +77,7 @@ class MessagesPage extends StatelessWidget {
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': true,
       'time': '12:15',
-      'unreadCount': '',
+      'unreadCount': null,
     },
   ];
 
