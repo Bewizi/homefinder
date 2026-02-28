@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:homefinder/core/navigation/app_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_card.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
@@ -12,6 +12,7 @@ import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/home/presentation/homes_bloc/homes_bloc.dart';
 import 'package:homefinder/features/home/presentation/pages/recommended_homes_view.dart';
+import 'package:homefinder/features/home/presentation/pages/see_all_homes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -156,7 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                 ),
                                 GestureDetector(
-                                  onTap: () => SeeAllHomesRoute().go(context),
+                                  onTap: () =>
+                                      context.push(SeeAllHomes.routeName),
                                   child: AppText(
                                     'See all',
                                     style: Theme.of(context).textTheme.bodySmall
