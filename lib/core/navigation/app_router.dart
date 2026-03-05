@@ -6,6 +6,7 @@ import 'package:homefinder/features/auth/presentaion/pages/forgot/forgot_passwor
 import 'package:homefinder/features/auth/presentaion/pages/signin/sign_in.dart';
 import 'package:homefinder/features/auth/presentaion/pages/signup/sign_up.dart';
 import 'package:homefinder/features/getStarted/get_started.dart';
+import 'package:homefinder/features/home/presentation/pages/apartment/apartment_view.dart';
 import 'package:homefinder/features/home/presentation/pages/home_screen.dart';
 import 'package:homefinder/features/home/presentation/pages/see_all_homes.dart';
 import 'package:homefinder/features/messages/presentation/pages/message_view.dart';
@@ -95,6 +96,17 @@ class MessageViewRoute extends GoRouteData with $MessageViewRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const MessageView();
+}
+
+// apartment view base on the id
+@TypedGoRoute<ApartmentViewRoute>(path: '/apartment-view/:id')
+class ApartmentViewRoute extends GoRouteData with $ApartmentViewRoute {
+  final String id;
+  const ApartmentViewRoute({required this.id});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      ApartmentView(id: id);
 }
 
 //MAIN APP SHELL WITH BOTTOM NAV  (NESTED ROUTING)
