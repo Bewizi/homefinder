@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/app_text_field.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/ui/extensions/app_theme_extension.dart';
 import 'package:homefinder/core/variables/app_iconsize.dart';
-import 'package:homefinder/core/variables/app_images.dart';
 import 'package:homefinder/core/variables/colors.dart';
 
 class MessagesPage extends StatelessWidget {
@@ -16,7 +17,8 @@ class MessagesPage extends StatelessWidget {
 
   static const List<Map<String, dynamic>> messages = [
     {
-      'imageUrl': AppImages.kEleanorPena,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1529111290557-82f6d5c6cf85?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODZ8fGJsYWNrJTIwcGVvcGxlfGVufDB8fDB8fHww',
       'name': 'Eleanor Pena',
       'message': 'Thanks for confirming! See you on then',
       'isOnline': true,
@@ -24,7 +26,7 @@ class MessagesPage extends StatelessWidget {
       'unreadCount': '3',
     },
     {
-      'imageUrl': AppImages.kEleanorPena,
+      'imageUrl': 'https://mockmind-api.uifaces.co/content/human/209.jpg',
       'name': 'Floyd Miles',
       'message': 'Lorem ipsum do eiusmod tempor ut la...',
       'isOnline': true,
@@ -32,7 +34,7 @@ class MessagesPage extends StatelessWidget {
       'unreadCount': '2',
     },
     {
-      'imageUrl': AppImages.kEleanorPena,
+      'imageUrl': 'https://mockmind-api.uifaces.co/content/human/169.jpg',
       'name': 'Cameron Williamson',
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': false,
@@ -40,7 +42,8 @@ class MessagesPage extends StatelessWidget {
       'unreadCount': null,
     },
     {
-      'imageUrl': AppImages.kEleanorPena,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1531123414780-f74242c2b052?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGJsYWNrJTIwcGVvcGxlfGVufDB8fDB8fHww',
       'name': 'Marvin McKinney',
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': false,
@@ -48,7 +51,8 @@ class MessagesPage extends StatelessWidget {
       'unreadCount': null,
     },
     {
-      'imageUrl': AppImages.kEleanorPena,
+      'imageUrl':
+          'https://plus.unsplash.com/premium_photo-1723683613486-a15861aa678a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fGJsYWNrJTIwcGVvcGxlfGVufDB8fDB8fHww',
       'name': 'Kristin Watson',
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': false,
@@ -56,7 +60,8 @@ class MessagesPage extends StatelessWidget {
       'unreadCount': '2',
     },
     {
-      'imageUrl': AppImages.kEleanorPena,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1504199367641-aba8151af406?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjZ8fGJsYWNrJTIwcGVvcGxlfGVufDB8fDB8fHww',
       'name': 'Dianne Russell',
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': true,
@@ -64,7 +69,8 @@ class MessagesPage extends StatelessWidget {
       'unreadCount': '2',
     },
     {
-      'imageUrl': AppImages.kEleanorPena,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1507152927179-bc4ebfef7103?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzB8fGJsYWNrJTIwcGVvcGxlfGVufDB8fDB8fHww',
       'name': 'Annette Black',
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': false,
@@ -72,7 +78,8 @@ class MessagesPage extends StatelessWidget {
       'unreadCount': null,
     },
     {
-      'imageUrl': AppImages.kEleanorPena,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1502764613149-7f1d229e230f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODR8fGJsYWNrJTIwcGVvcGxlfGVufDB8fDB8fHww',
       'name': 'Ralph Edwards',
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': true,
@@ -158,6 +165,7 @@ class MessagesPage extends StatelessWidget {
                   time: message['time'] as String,
                   unreadCount: message['unreadCount'] as String?,
                   isOnline: message['isOnline'] as bool,
+                  () => context.push(MessageViewRoute.path),
                 );
               },
             ),
@@ -196,89 +204,93 @@ class MessagesPage extends StatelessWidget {
     BuildContext context,
     String imageUrl,
     String name,
-    String message, {
+    String message,
+    VoidCallback? onTap, {
     required String time,
     required String? unreadCount,
     required bool isOnline,
   }) {
-    return Row(
-      children: [
-        //   image with indicator
-        Stack(
-          children: [
-            ClipOval(
-              child: Image.asset(
-                imageUrl,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Positioned(
-              right: 2,
-              bottom: 2,
-              child: Container(
-                width: 14,
-                height: 14,
-                decoration: BoxDecoration(
-                  color: isOnline ? AppColors.kSuccess50 : AppColors.kGrey30,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.kWhite,
-                    width: 2,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-
-        16.horizontalSpacing,
-
-        //   landlord's name and message
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          //   image with indicator
+          Stack(
             children: [
-              AppText(
-                name,
-                style: context.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.kGray50,
+              ClipOval(
+                child: Image.network(
+                  imageUrl,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
                 ),
               ),
-              4.verticalSpacing,
-              AppText(
-                message,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: context.textTheme.bodySmall?.copyWith(
-                  color: AppColors.kGray30,
+              Positioned(
+                right: 2,
+                bottom: 2,
+                child: Container(
+                  width: 14,
+                  height: 14,
+                  decoration: BoxDecoration(
+                    color: isOnline ? AppColors.kSuccess50 : AppColors.kGrey30,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.kWhite,
+                      width: 2,
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
-        ),
 
-        //   time and unread messages
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            AppText(
-              time,
-              style: context.textTheme.bodySmall?.copyWith(
-                color: AppColors.kGray30,
-              ),
+          16.horizontalSpacing,
+
+          //   landlord's name and message
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText(
+                  name,
+                  style: context.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.kGray50,
+                  ),
+                ),
+                4.verticalSpacing,
+                AppText(
+                  message,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: AppColors.kGray30,
+                  ),
+                ),
+              ],
             ),
-            8.verticalSpacing,
-            // Show badge only if count is not null and not empty
-            if (unreadCount != null &&
-                unreadCount.isNotEmpty &&
-                unreadCount != '0')
-              _buildBadgeText(context, unreadCount),
-          ],
-        ),
-      ],
+          ),
+
+          //   time and unread messages
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              AppText(
+                time,
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: AppColors.kGray30,
+                ),
+              ),
+              8.verticalSpacing,
+              // Show badge only if count is not null and not empty
+              if (unreadCount != null &&
+                  unreadCount.isNotEmpty &&
+                  unreadCount != '0')
+                _buildBadgeText(context, unreadCount),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
