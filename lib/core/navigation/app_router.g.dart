@@ -14,6 +14,7 @@ List<RouteBase> get $appRoutes => [
   $signInRoute,
   $forgotPasswordRoute,
   $seeAllHomesRoute,
+  $messageViewRoute,
   $appShellRouteData,
 ];
 
@@ -173,6 +174,31 @@ mixin $SeeAllHomesRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/see-all-homes');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $messageViewRoute => GoRouteData.$route(
+  path: '/message-view',
+  factory: $MessageViewRoute._fromState,
+);
+
+mixin $MessageViewRoute on GoRouteData {
+  static MessageViewRoute _fromState(GoRouterState state) => MessageViewRoute();
+
+  @override
+  String get location => GoRouteData.$location('/message-view');
 
   @override
   void go(BuildContext context) => context.go(location);

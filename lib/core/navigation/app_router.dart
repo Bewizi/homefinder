@@ -8,6 +8,7 @@ import 'package:homefinder/features/auth/presentaion/pages/signup/sign_up.dart';
 import 'package:homefinder/features/getStarted/get_started.dart';
 import 'package:homefinder/features/home/presentation/pages/home_screen.dart';
 import 'package:homefinder/features/home/presentation/pages/see_all_homes.dart';
+import 'package:homefinder/features/messages/presentation/pages/message_view.dart';
 import 'package:homefinder/features/messages/presentation/pages/messages_page.dart';
 import 'package:homefinder/features/onboarding/onboarding_screen.dart';
 import 'package:homefinder/features/splash_screen/splash_screen.dart';
@@ -84,6 +85,16 @@ class SeeAllHomesRoute extends GoRouteData with $SeeAllHomesRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const SeeAllHomes();
+}
+
+// message view
+@TypedGoRoute<MessageViewRoute>(path: MessageViewRoute.path)
+class MessageViewRoute extends GoRouteData with $MessageViewRoute {
+  static const path = '/message-view';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const MessageView();
 }
 
 //MAIN APP SHELL WITH BOTTOM NAV  (NESTED ROUTING)
