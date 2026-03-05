@@ -27,6 +27,7 @@ dev_dependencies:
   bloc_test: ^10.0.0
   bloc_tools: ^0.1.0-dev.20
   build_runner: ^2.11.1
+  cached_network_image: ^3.4.1
   flutter_test:
     sdk: flutter
   go_router_builder: ^4.2.0
