@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_card.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
@@ -180,213 +181,218 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return SizedBox(
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.8,
-                                    child: AppCard(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Stack(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                      AppRadius.medium,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        ApartmentViewRoute(id: home.id).push(context);
+                                      },
+                                      child: AppCard(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        AppRadius.medium,
+                                                      ),
+                                                  child: Image.asset(
+                                                    home.image,
+                                                    fit: BoxFit.cover,
+                                                    height: 200,
+                                                    width: double.infinity,
+                                                  ),
+                                                ),
+                                                Positioned.fill(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(
+                                                      12,
                                                     ),
-                                                child: Image.asset(
-                                                  home.image,
-                                                  fit: BoxFit.cover,
-                                                  height: 200,
-                                                  width: double.infinity,
-                                                ),
-                                              ),
-                                              Positioned.fill(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                    12,
-                                                  ),
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                          color:
-                                                              AppColors.kWhite,
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                AppRadius
-                                                                    .fullRadius,
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                            color:
+                                                                AppColors.kWhite,
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  AppRadius
+                                                                      .fullRadius,
+                                                                ),
+                                                          ),
+                                                          padding:
+                                                              const EdgeInsets.symmetric(
+                                                                horizontal: 8,
+                                                                vertical: 4,
                                                               ),
+                                                          child: Row(
+                                                            children: [
+                                                              const Icon(
+                                                                FontAwesomeIcons
+                                                                    .solidStar,
+                                                                color: AppColors
+                                                                    .kWarning50,
+                                                                size: AppIconSize
+                                                                    .small,
+                                                              ),
+                                                              4.horizontalSpacing,
+                                                              AppText(
+                                                                home.rating
+                                                                    .toString(),
+                                                                style: Theme.of(context)
+                                                                    .textTheme
+                                                                    .bodySmall
+                                                                    ?.copyWith(
+                                                                      color: AppColors
+                                                                          .kGrey80,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700,
+                                                                    ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
-                                                        padding:
-                                                            const EdgeInsets.symmetric(
-                                                              horizontal: 8,
-                                                              vertical: 4,
-                                                            ),
-                                                        child: Row(
-                                                          children: [
-                                                            const Icon(
-                                                              FontAwesomeIcons
-                                                                  .solidStar,
-                                                              color: AppColors
-                                                                  .kWarning50,
-                                                              size: AppIconSize
-                                                                  .small,
-                                                            ),
-                                                            4.horizontalSpacing,
-                                                            AppText(
-                                                              home.rating
-                                                                  .toString(),
-                                                              style: Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodySmall
-                                                                  ?.copyWith(
-                                                                    color: AppColors
-                                                                        .kGrey80,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                  ),
-                                                            ),
-                                                          ],
+                                                        IconConButton(
+                                                          shape: BoxShape.circle,
+                                                          borderColor: AppColors
+                                                              .kTransparent,
+                                                          bgColor:
+                                                              AppColors.kWhite,
+                                                          child: const Icon(
+                                                            FontAwesomeIcons
+                                                                .heart,
+                                                            color: AppColors
+                                                                .kPrimary,
+                                                          ),
+                                                          pressed: () {},
                                                         ),
-                                                      ),
-                                                      IconConButton(
-                                                        shape: BoxShape.circle,
-                                                        borderColor: AppColors
-                                                            .kTransparent,
-                                                        bgColor:
-                                                            AppColors.kWhite,
-                                                        child: const Icon(
-                                                          FontAwesomeIcons
-                                                              .heart,
-                                                          color: AppColors
-                                                              .kPrimary,
-                                                        ),
-                                                        pressed: () {},
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          16.verticalSpacing,
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: AppText(
-                                                  home.name,
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleSmall
-                                                      ?.copyWith(
-                                                        color:
-                                                            AppColors.kGrey80,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
-                                              ),
-                                              AppRichText(
-                                                spans: [
-                                                  TextSpan(
-                                                    text:
-                                                        '#${home.price_per_month}M',
+                                              ],
+                                            ),
+                                            16.verticalSpacing,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: AppText(
+                                                    home.name,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .headlineSmall
+                                                        .titleSmall
                                                         ?.copyWith(
-                                                          color: AppColors
-                                                              .kPrimary,
+                                                          color:
+                                                              AppColors.kGrey80,
                                                           fontWeight:
-                                                              FontWeight.w800,
-                                                          fontSize: 20,
+                                                              FontWeight.w500,
                                                         ),
                                                   ),
-                                                  TextSpan(
-                                                    text: '/year',
+                                                ),
+                                                AppRichText(
+                                                  spans: [
+                                                    TextSpan(
+                                                      text:
+                                                          '#${home.price_per_month}M',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headlineSmall
+                                                          ?.copyWith(
+                                                            color: AppColors
+                                                                .kPrimary,
+                                                            fontWeight:
+                                                                FontWeight.w800,
+                                                            fontSize: 20,
+                                                          ),
+                                                    ),
+                                                    TextSpan(
+                                                      text: '/year',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall
+                                                          ?.copyWith(
+                                                            color:
+                                                                AppColors.kGrey40,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            16.verticalSpacing,
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  FontAwesomeIcons.locationDot,
+                                                  color: AppColors.kGrey30,
+                                                  size: AppIconSize.small,
+                                                ),
+                                                8.horizontalSpacing,
+                                                Expanded(
+                                                  child: AppText(
+                                                    home.location,
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodySmall
                                                         ?.copyWith(
                                                           color:
-                                                              AppColors.kGrey40,
+                                                              AppColors.kGrey30,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
                                                   ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          16.verticalSpacing,
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                FontAwesomeIcons.locationDot,
-                                                color: AppColors.kGrey30,
-                                                size: AppIconSize.small,
-                                              ),
-                                              8.horizontalSpacing,
-                                              Expanded(
-                                                child: AppText(
-                                                  home.location,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall
-                                                      ?.copyWith(
-                                                        color:
-                                                            AppColors.kGrey30,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          16.verticalSpacing,
-                                          IntrinsicHeight(
-                                            child: Row(
-                                              children: [
-                                                _buildFeature(
-                                                  FontAwesomeIcons.bed,
-                                                  '${home.beds} Beds',
-                                                  context,
-                                                ),
-                                                const VerticalDivider(
-                                                  thickness: 1,
-                                                  color: AppColors.kGrey30,
-                                                  width: 16,
-                                                ),
-                                                _buildFeature(
-                                                  FontAwesomeIcons.bath,
-                                                  '${home.baths} Baths',
-                                                  context,
-                                                ),
-                                                const VerticalDivider(
-                                                  thickness: 1,
-                                                  color: AppColors.kGrey30,
-                                                  width: 16,
-                                                ),
-                                                _buildFeature(
-                                                  FontAwesomeIcons.ruler,
-                                                  '${home.sqft} sqft',
-                                                  context,
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                        ],
+                                            16.verticalSpacing,
+                                            IntrinsicHeight(
+                                              child: Row(
+                                                children: [
+                                                  _buildFeature(
+                                                    FontAwesomeIcons.bed,
+                                                    '${home.beds} Beds',
+                                                    context,
+                                                  ),
+                                                  const VerticalDivider(
+                                                    thickness: 1,
+                                                    color: AppColors.kGrey30,
+                                                    width: 16,
+                                                  ),
+                                                  _buildFeature(
+                                                    FontAwesomeIcons.bath,
+                                                    '${home.baths} Baths',
+                                                    context,
+                                                  ),
+                                                  const VerticalDivider(
+                                                    thickness: 1,
+                                                    color: AppColors.kGrey30,
+                                                    width: 16,
+                                                  ),
+                                                  _buildFeature(
+                                                    FontAwesomeIcons.ruler,
+                                                    '${home.sqft} sqft',
+                                                    context,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );
