@@ -23,6 +23,7 @@ class AppScaffold extends StatelessWidget {
       appBar: appbar,
       bottomNavigationBar: bottomNavigationBar,
       backgroundColor: backgroundColor,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: padding
             ? Padding(
