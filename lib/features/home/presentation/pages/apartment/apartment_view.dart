@@ -9,6 +9,7 @@ import 'package:homefinder/features/home/data/homes_data.dart';
 import 'package:homefinder/features/home/domain/homes_domain.dart';
 import 'package:homefinder/features/home/presentation/widgets/navigation_arrow.dart';
 import 'package:homefinder/features/home/presentation/widgets/page_indicator.dart';
+import 'package:homefinder/features/home/presentation/widgets/pricing_table.dart';
 
 class ApartmentView extends StatefulWidget {
   final String id;
@@ -277,6 +278,23 @@ class _ApartmentViewState extends State<ApartmentView> {
                               _buildAmenity(amenity),
                           ],
                         ),
+                      ],
+                    ),
+
+                    //   pricing breakdown
+                    32.verticalSpacing,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          'Pricing Breakdown',
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: AppColors.kGrey80,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        8.verticalSpacing,
+                        const PricingTable(),
                       ],
                     ),
                   ],
