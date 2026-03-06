@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/ui/extensions/app_theme_extension.dart';
+import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/home/data/homes_data.dart';
@@ -94,6 +97,55 @@ class _ApartmentViewState extends State<ApartmentView> {
     }
 
     return AppScaffold(
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        height: MediaQuery.sizeOf(context).height * 0.095,
+        decoration: BoxDecoration(
+          color: AppColors.kWhite,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.kBlack.withValues(alpha: 0.1),
+              offset: const Offset(0, -4),
+              blurRadius: 16,
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 32,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppRichText(
+                spans: [
+                  TextSpan(
+                    text: '#${apartment!.price_per_month}',
+                    style: context.textTheme.headlineSmall?.copyWith(
+                      color: AppColors.kPrimary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '/year',
+                    style: context.textTheme.bodySmall?.copyWith(
+                      color: AppColors.kGrey30,
+                    ),
+                  ),
+                ],
+              ),
+
+              PrimaryButton(
+                width: MediaQuery.sizeOf(context).width * 0.3,
+                'Message',
+                pressed: () {},
+                color: AppColors.kPrimary,
+                textColor: AppColors.kWhite,
+              ),
+            ],
+          ),
+        ),
+      ),
       padding: false,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,6 +286,38 @@ class _ApartmentViewState extends State<ApartmentView> {
                       ],
                     ),
 
+                    16.verticalSpacing,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildFeature(
+                          FontAwesomeIcons.bed,
+                          '${apartment!.beds} Bedrooms',
+                          context,
+                        ),
+                        const VerticalDivider(
+                          thickness: 1,
+                          color: AppColors.kGrey30,
+                          width: 16,
+                        ),
+                        _buildFeature(
+                          FontAwesomeIcons.bath,
+                          '${apartment!.baths} Baths',
+                          context,
+                        ),
+                        const VerticalDivider(
+                          thickness: 1,
+                          color: AppColors.kGrey30,
+                          width: 16,
+                        ),
+                        _buildFeature(
+                          FontAwesomeIcons.ruler,
+                          '${apartment!.sqft} sqft',
+                          context,
+                        ),
+                      ],
+                    ),
+
                     //   apartment description
                     32.verticalSpacing,
                     Column(
@@ -295,6 +379,23 @@ class _ApartmentViewState extends State<ApartmentView> {
                         ),
                         8.verticalSpacing,
                         const PricingTable(),
+                      ],
+                    ),
+
+                    //   landlord details
+                    32.verticalSpacing,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          'Landlord Details',
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: AppColors.kGrey80,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        8.verticalSpacing,
+                        _buildLandlordDetails(),
                       ],
                     ),
                   ],
@@ -388,6 +489,104 @@ class _ApartmentViewState extends State<ApartmentView> {
         label,
         style: context.textTheme.bodySmall,
       ),
+    );
+  }
+
+  Widget _buildLandlordDetails() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 24),
+      decoration: BoxDecoration(
+        color: AppColors.kWhite,
+        border: Border.all(color: AppColors.kGray30),
+        borderRadius: BorderRadius.circular(AppRadius.medium),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          //landlord image
+          ClipOval(
+            child: Image.network(
+              'https://images.unsplash.com/photo-1529111290557-82f6d5c6cf85?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODZ8fGJsYWNrJTIwcGVvcGxlfGVufDB8fDB8fHww',
+              fit: BoxFit.cover,
+              width: 100,
+              height: 100,
+            ),
+          ),
+          16.verticalSpacing,
+          //landlord name
+          AppText(
+            'Eleanor Pena',
+            style: context.textTheme.titleMedium?.copyWith(
+              color: AppColors.kGrey80,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          8.verticalSpacing,
+          Container(
+            width: MediaQuery.sizeOf(context).width * 0.25,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: AppColors.kSuccess5,
+              borderRadius: BorderRadius.circular(AppRadius.fullRadius),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.verified_outlined,
+                  color: AppColors.kSuccess50,
+                  size: AppIconSize.small,
+                ),
+                4.horizontalSpacing,
+                AppText(
+                  'Verified',
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: AppColors.kSuccess50,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          16.verticalSpacing,
+          //landlord description
+          AppText(
+            'Trusted landlord known for prompt communication, well-maintained properties, and a tenant-first approach.',
+            style: context.textTheme.bodySmall?.copyWith(
+              color: AppColors.kGrey40,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          16.verticalSpacing,
+          //landlord contact
+          PrimaryButton(
+            'Contact',
+            pressed: () {},
+            color: AppColors.kBrand5,
+            textColor: AppColors.kPrimary,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFeature(IconData icon, String text, BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: AppIconSize.regular,
+          color: AppColors.kGrey30,
+        ),
+        8.horizontalSpacing,
+        AppText(
+          text,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: AppColors.kGrey30,
+          ),
+        ),
+      ],
     );
   }
 }
