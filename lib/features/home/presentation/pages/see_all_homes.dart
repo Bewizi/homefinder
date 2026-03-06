@@ -158,11 +158,17 @@ class _SeeAllHomesState extends State<SeeAllHomes> {
                                             shape: BoxShape.circle,
                                             borderColor: AppColors.kTransparent,
                                             bgColor: AppColors.kWhite,
-                                            child: const Icon(
-                                              FontAwesomeIcons.heart,
+                                            child: Icon(
+                                              home.isFavourite
+                                                  ? FontAwesomeIcons.solidHeart
+                                                  : FontAwesomeIcons.heart,
                                               color: AppColors.kPrimary,
                                             ),
-                                            pressed: () {},
+                                            pressed: () {
+                                              context.read<HomesBloc>().add(
+                                                ToggleFavorite(home.id),
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),
