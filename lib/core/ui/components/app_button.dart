@@ -11,6 +11,10 @@ class PrimaryButton extends StatelessWidget {
     this.loading = false,
     this.pressed,
     this.color,
+    this.textColor,
+    this.width,
+    this.height,
+    this.padding,
     super.key,
   });
 
@@ -19,26 +23,35 @@ class PrimaryButton extends StatelessWidget {
   final VoidCallback? pressed;
   final String text;
   final Color? color;
+  final Color? textColor;
+  final double? width;
+  final double? height;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: pressed,
       child: Container(
-        width: MediaQuery.sizeOf(context).width,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 10,
-        ),
+        width: width ?? MediaQuery.sizeOf(context).width,
+        padding:
+            padding ??
+            const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 10,
+            ),
         decoration: BoxDecoration(
           color: color ?? AppColors.kPrimary,
           borderRadius: BorderRadius.circular(AppRadius.medium),
         ),
         child: AppText(
           text,
-          style: Theme.of(
-            context,
-          ).textTheme.titleSmall?.copyWith(color: AppColors.kWhite),
+          style:
+              Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(
+                color: textColor ?? AppColors.kWhite,
+              ),
           textAlign: TextAlign.center,
         ),
       ),
