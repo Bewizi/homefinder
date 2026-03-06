@@ -12,6 +12,7 @@ import 'package:homefinder/features/home/presentation/pages/see_all_homes.dart';
 import 'package:homefinder/features/messages/presentation/pages/message_view.dart';
 import 'package:homefinder/features/messages/presentation/pages/messages_page.dart';
 import 'package:homefinder/features/onboarding/onboarding_screen.dart';
+import 'package:homefinder/features/saved/presentation/pages/saved_page.dart';
 import 'package:homefinder/features/splash_screen/splash_screen.dart';
 
 part 'app_router.g.dart';
@@ -164,8 +165,7 @@ class HomeRoute extends GoRouteData with $HomeRoute {
 
 class SavedPageRoute extends GoRouteData with $SavedPageRoute {
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const Scaffold(body: Center(child: Text('Saved Page')));
+  Widget build(BuildContext context, GoRouterState state) => const SavedPage();
 }
 
 class MessagesPageRoute extends GoRouteData with $MessagesPageRoute {
