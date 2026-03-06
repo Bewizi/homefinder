@@ -12,6 +12,7 @@ class HomesDomain {
     required this.sqft,
     required this.images,
     required this.description,
+    this.isFavourite = false,
   });
 
   factory HomesDomain.fromMap(Map<String, dynamic> json) {
@@ -26,6 +27,7 @@ class HomesDomain {
       beds: json['beds'] as String,
       baths: json['baths'] as String,
       sqft: json['sqft'] as String,
+      isFavourite: json['is_favourite'] as bool? ?? false,
       images: json['images'] != null
           ? List<String>.from(json['images'] as List)
           : [],
@@ -45,6 +47,7 @@ class HomesDomain {
   final String price_per_month;
   final List<String> images;
   final String description;
+  final bool isFavourite;
 
   HomesDomain copyWith({
     String? id,
@@ -59,6 +62,7 @@ class HomesDomain {
     String? price_per_month,
     String? description,
     List<String>? images,
+    bool? isFavourite,
   }) {
     return HomesDomain(
       id: id ?? this.id,
@@ -73,6 +77,7 @@ class HomesDomain {
       price_per_month: price_per_month ?? this.price_per_month,
       images: images ?? this.images,
       description: description ?? this.description,
+      isFavourite: isFavourite ?? this.isFavourite,
     );
   }
 
@@ -90,6 +95,7 @@ class HomesDomain {
       'price_per_month': price_per_month,
       'images': images,
       'description': description,
+      'is_favourite': isFavourite,
     };
   }
 

@@ -8,3 +8,11 @@ sealed class HomesEvent extends Equatable {
 }
 
 class FetchHomes extends HomesEvent {}
+
+class ToggleFavorite extends HomesEvent {
+  final String homeId;
+  const ToggleFavorite(this.homeId);
+
+  @override
+  List<Object> get props => [homeId];
+}

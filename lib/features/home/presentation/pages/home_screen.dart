@@ -183,7 +183,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         MediaQuery.sizeOf(context).width * 0.8,
                                     child: GestureDetector(
                                       onTap: () {
-                                        ApartmentViewRoute(id: home.id).push(context);
+                                        ApartmentViewRoute(
+                                          id: home.id,
+                                        ).push(context);
                                       },
                                       child: AppCard(
                                         child: Column(
@@ -206,9 +208,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 Positioned.fill(
                                                   child: Padding(
-                                                    padding: const EdgeInsets.all(
-                                                      12,
-                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          12,
+                                                        ),
                                                     child: Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -219,8 +222,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       children: [
                                                         Container(
                                                           decoration: BoxDecoration(
-                                                            color:
-                                                                AppColors.kWhite,
+                                                            color: AppColors
+                                                                .kWhite,
                                                             borderRadius:
                                                                 BorderRadius.circular(
                                                                   AppRadius
@@ -239,8 +242,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     .solidStar,
                                                                 color: AppColors
                                                                     .kWarning50,
-                                                                size: AppIconSize
-                                                                    .small,
+                                                                size:
+                                                                    AppIconSize
+                                                                        .small,
                                                               ),
                                                               4.horizontalSpacing,
                                                               AppText(
@@ -261,18 +265,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           ),
                                                         ),
                                                         IconConButton(
-                                                          shape: BoxShape.circle,
+                                                          shape:
+                                                              BoxShape.circle,
                                                           borderColor: AppColors
                                                               .kTransparent,
                                                           bgColor:
                                                               AppColors.kWhite,
-                                                          child: const Icon(
-                                                            FontAwesomeIcons
-                                                                .heart,
+                                                          child: Icon(
+                                                            home.isFavourite
+                                                                ? FontAwesomeIcons
+                                                                      .solidHeart
+                                                                : FontAwesomeIcons
+                                                                      .heart,
                                                             color: AppColors
                                                                 .kPrimary,
                                                           ),
-                                                          pressed: () {},
+                                                          pressed: () {
+                                                            context
+                                                                .read<
+                                                                  HomesBloc
+                                                                >()
+                                                                .add(
+                                                                  ToggleFavorite(
+                                                                    home.id,
+                                                                  ),
+                                                                );
+                                                          },
                                                         ),
                                                       ],
                                                     ),
@@ -283,7 +301,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             16.verticalSpacing,
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Expanded(
                                                   child: AppText(
@@ -324,8 +343,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           .textTheme
                                                           .bodySmall
                                                           ?.copyWith(
-                                                            color:
-                                                                AppColors.kGrey40,
+                                                            color: AppColors
+                                                                .kGrey40,
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                           ),

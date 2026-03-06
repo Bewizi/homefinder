@@ -11,6 +11,7 @@ class HomesBloc extends Bloc<HomesEvent, HomesState> {
     : _homesRepository = homesRepository,
       super(HomesInitial()) {
     on<FetchHomes>(_onFetchHomes);
+    on<ToggleFavorite>(_onToggleFavorite);
   }
 
   final HomesRepository _homesRepository;
@@ -22,6 +23,19 @@ class HomesBloc extends Bloc<HomesEvent, HomesState> {
       emit(HomesLoaded(homes));
     } on Exception catch (e) {
       emit(HomesError(e.toString()));
+    }
+  }
+
+  void _onToggleFavorite(ToggleFavorite event, Emitter<HomesState> emit) {
+    if (state is HomesLoaded) {
+      final currentState = state as HomesLoaded;
+      final updatedHomes = currentState.homes.map((home) {
+        if (home.id == event.homeId) {
+          return home.copyWith(isFavourite: !home.isFavourite);
+        }
+        return home;
+      }).toList();
+      emit(HomesLoaded(updatedHomes));
     }
   }
 }
