@@ -11,6 +11,7 @@
     "baths": "2",
     "sqft": "1,200",
     "is_favourite": true,
+    "description": "A beautiful, modern apartment in the heart of downtown. Recently renovated with high-end finishes and appliances. Featuring an open floor plan, large windows providing plenty of natural light, and a spacious balcony with city views. Building amenities include a fitness center, rooftop lounge, and 24-hour concierge service.",
     "images": [
       "assets/images/Starlight Residence.png",
       "assets/images/949bcc4d8dafbdf1bb3441c294b1f85400faddf9.png",
@@ -33,7 +34,18 @@
     "beds": "2",
     "baths": "2",
     "sqft": "1,000",
-    "is_favourite": false
+    "is_favourite": false,
+    "description": "A beautiful, modern apartment in the heart of downtown. Recently renovated with high-end finishes and appliances. Featuring an open floor plan, large windows providing plenty of natural light, and a spacious balcony with city views. Building amenities include a fitness center, rooftop lounge, and 24-hour concierge service.",
+    "images": [
+      "assets/images/Starlight Residence.png",
+      "assets/images/949bcc4d8dafbdf1bb3441c294b1f85400faddf9.png",
+      "assets/images/66f3458661b10e6333f57908c4db4d1ad66dddbe.png",
+      "assets/images/0a33881ccacb8ad1aa8529129b3778e06eb60998.png",
+      "assets/images/8dfeb5d02d29a7fd0c18c7ba98048ee9ce100777.png",
+      "assets/images/50d275dd5d89c7384023aa7012483b2c92c239c8.png",
+      "assets/images/9cbac1f87d73152ce826f87dfbebd04084568592.png",
+      "assets/images/602d70e3a3d7710e23fb195dd5a20cc3513d7582.png"
+    ]
   },
   {
     "id": "3",
@@ -46,7 +58,18 @@
     "beds": "2",
     "baths": "2",
     "sqft": "1,200",
-    "is_favourite": true
+    "is_favourite": true,
+    "description": "A beautiful, modern apartment in the heart of downtown. Recently renovated with high-end finishes and appliances. Featuring an open floor plan, large windows providing plenty of natural light, and a spacious balcony with city views. Building amenities include a fitness center, rooftop lounge, and 24-hour concierge service.",
+    "images": [
+      "assets/images/Starlight Residence.png",
+      "assets/images/949bcc4d8dafbdf1bb3441c294b1f85400faddf9.png",
+      "assets/images/66f3458661b10e6333f57908c4db4d1ad66dddbe.png",
+      "assets/images/0a33881ccacb8ad1aa8529129b3778e06eb60998.png",
+      "assets/images/8dfeb5d02d29a7fd0c18c7ba98048ee9ce100777.png",
+      "assets/images/50d275dd5d89c7384023aa7012483b2c92c239c8.png",
+      "assets/images/9cbac1f87d73152ce826f87dfbebd04084568592.png",
+      "assets/images/602d70e3a3d7710e23fb195dd5a20cc3513d7582.png"
+    ]
   },
   {
     "id": "4",
@@ -59,7 +82,18 @@
     "beds": "3",
     "baths": "3",
     "sqft": "1,200",
-    "is_favourite": true
+    "is_favourite": true,
+    "description": "A beautiful, modern apartment in the heart of downtown. Recently renovated with high-end finishes and appliances. Featuring an open floor plan, large windows providing plenty of natural light, and a spacious balcony with city views. Building amenities include a fitness center, rooftop lounge, and 24-hour concierge service.",
+    "images": [
+      "assets/images/Starlight Residence.png",
+      "assets/images/949bcc4d8dafbdf1bb3441c294b1f85400faddf9.png",
+      "assets/images/66f3458661b10e6333f57908c4db4d1ad66dddbe.png",
+      "assets/images/0a33881ccacb8ad1aa8529129b3778e06eb60998.png",
+      "assets/images/8dfeb5d02d29a7fd0c18c7ba98048ee9ce100777.png",
+      "assets/images/50d275dd5d89c7384023aa7012483b2c92c239c8.png",
+      "assets/images/9cbac1f87d73152ce826f87dfbebd04084568592.png",
+      "assets/images/602d70e3a3d7710e23fb195dd5a20cc3513d7582.png"
+    ]
   },
   {
     "id": "5",
@@ -72,7 +106,18 @@
     "beds": "3",
     "baths": "2",
     "sqft": "1,200",
-    "is_favourite": true
+    "is_favourite": true,
+    "description": "A beautiful, modern apartment in the heart of downtown. Recently renovated with high-end finishes and appliances. Featuring an open floor plan, large windows providing plenty of natural light, and a spacious balcony with city views. Building amenities include a fitness center, rooftop lounge, and 24-hour concierge service.",
+    "images": [
+      "assets/images/Starlight Residence.png",
+      "assets/images/949bcc4d8dafbdf1bb3441c294b1f85400faddf9.png",
+      "assets/images/66f3458661b10e6333f57908c4db4d1ad66dddbe.png",
+      "assets/images/0a33881ccacb8ad1aa8529129b3778e06eb60998.png",
+      "assets/images/8dfeb5d02d29a7fd0c18c7ba98048ee9ce100777.png",
+      "assets/images/50d275dd5d89c7384023aa7012483b2c92c239c8.png",
+      "assets/images/9cbac1f87d73152ce826f87dfbebd04084568592.png",
+      "assets/images/602d70e3a3d7710e23fb195dd5a20cc3513d7582.png"
+    ]
   },
   {
     "id": "6",
@@ -85,7 +130,18 @@
     "beds": "4",
     "baths": "3",
     "sqft": "1,200",
-    "is_favourite": true
+    "is_favourite": true,
+    "description": "A beautiful, modern apartment in the heart of downtown. Recently renovated with high-end finishes and appliances. Featuring an open floor plan, large windows providing plenty of natural light, and a spacious balcony with city views. Building amenities include a fitness center, rooftop lounge, and 24-hour concierge service.",
+    "images": [
+      "assets/images/Starlight Residence.png",
+      "assets/images/949bcc4d8dafbdf1bb3441c294b1f85400faddf9.png",
+      "assets/images/66f3458661b10e6333f57908c4db4d1ad66dddbe.png",
+      "assets/images/0a33881ccacb8ad1aa8529129b3778e06eb60998.png",
+      "assets/images/8dfeb5d02d29a7fd0c18c7ba98048ee9ce100777.png",
+      "assets/images/50d275dd5d89c7384023aa7012483b2c92c239c8.png",
+      "assets/images/9cbac1f87d73152ce826f87dfbebd04084568592.png",
+      "assets/images/602d70e3a3d7710e23fb195dd5a20cc3513d7582.png"
+    ]
   },
   {
     "id": "7",
@@ -98,7 +154,18 @@
     "beds": "3",
     "baths": "2",
     "sqft": "1,200",
-    "is_favourite": true
+    "is_favourite": true,
+    "description": "A beautiful, modern apartment in the heart of downtown. Recently renovated with high-end finishes and appliances. Featuring an open floor plan, large windows providing plenty of natural light, and a spacious balcony with city views. Building amenities include a fitness center, rooftop lounge, and 24-hour concierge service.",
+    "images": [
+      "assets/images/Starlight Residence.png",
+      "assets/images/949bcc4d8dafbdf1bb3441c294b1f85400faddf9.png",
+      "assets/images/66f3458661b10e6333f57908c4db4d1ad66dddbe.png",
+      "assets/images/0a33881ccacb8ad1aa8529129b3778e06eb60998.png",
+      "assets/images/8dfeb5d02d29a7fd0c18c7ba98048ee9ce100777.png",
+      "assets/images/50d275dd5d89c7384023aa7012483b2c92c239c8.png",
+      "assets/images/9cbac1f87d73152ce826f87dfbebd04084568592.png",
+      "assets/images/602d70e3a3d7710e23fb195dd5a20cc3513d7582.png"
+    ]
   },
   {
     "id": "8",
@@ -111,6 +178,17 @@
     "beds": "3",
     "baths": "2",
     "sqft": "1,200",
-    "is_favourite": true
+    "is_favourite": true,
+    "description": "A beautiful, modern apartment in the heart of downtown. Recently renovated with high-end finishes and appliances. Featuring an open floor plan, large windows providing plenty of natural light, and a spacious balcony with city views. Building amenities include a fitness center, rooftop lounge, and 24-hour concierge service.",
+    "images": [
+      "assets/images/Starlight Residence.png",
+      "assets/images/949bcc4d8dafbdf1bb3441c294b1f85400faddf9.png",
+      "assets/images/66f3458661b10e6333f57908c4db4d1ad66dddbe.png",
+      "assets/images/0a33881ccacb8ad1aa8529129b3778e06eb60998.png",
+      "assets/images/8dfeb5d02d29a7fd0c18c7ba98048ee9ce100777.png",
+      "assets/images/50d275dd5d89c7384023aa7012483b2c92c239c8.png",
+      "assets/images/9cbac1f87d73152ce826f87dfbebd04084568592.png",
+      "assets/images/602d70e3a3d7710e23fb195dd5a20cc3513d7582.png"
+    ]
   }
 ]
