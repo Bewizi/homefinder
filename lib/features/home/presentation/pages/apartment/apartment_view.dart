@@ -3,6 +3,7 @@ import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/ui/extensions/app_theme_extension.dart';
+import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/home/data/homes_data.dart';
 import 'package:homefinder/features/home/domain/homes_domain.dart';
@@ -23,6 +24,17 @@ class _ApartmentViewState extends State<ApartmentView> {
   bool isLoading = true;
   final PageController _pageController = PageController();
   int _currentIndex = 0;
+
+  final List<String> amenitiesList = [
+    'Elevator',
+    'Doorman',
+    'Garage',
+    'Air Conditioning',
+    'Hardwood Floors',
+    'Gym',
+    'Dishwasher',
+    'In-unit Laundry',
+  ];
 
   @override
   void initState() {
@@ -89,14 +101,23 @@ class _ApartmentViewState extends State<ApartmentView> {
             height: 300,
             child: Stack(
               children: [
-                PageView.builder(
-                  controller: _pageController,
-                  itemCount: apartment!.images.length,
-                  onPageChanged: _onPageChanged,
-                  itemBuilder: (context, index) {
-                    return _buildPage(apartment!.images[index]);
-                  },
-                ),
+                if (apartment!.images.isNotEmpty)
+                  PageView.builder(
+                    controller: _pageController,
+                    itemCount: apartment!.images.length,
+                    onPageChanged: _onPageChanged,
+                    itemBuilder: (context, index) {
+                      return _buildPage(apartment!.images[index]);
+                    },
+                  ),
+                if (apartment!.images.isEmpty)
+                  Image.asset(
+                    width: double.infinity,
+                    apartment!.image,
+                    height: 300,
+                    fit: BoxFit.cover,
+                  ),
+
                 Positioned(
                   top: 8,
                   left: 16,
@@ -141,41 +162,125 @@ class _ApartmentViewState extends State<ApartmentView> {
             ),
           ),
 
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText(
-                    apartment!.name,
-                    style: context.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.kGrey80,
-                    ),
-                  ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // apartment type and rating
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // apartment type
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.kBrand5,
+                            borderRadius: BorderRadius.circular(
+                              AppRadius.medium,
+                            ),
+                          ),
 
-                  8.verticalSpacing,
-
-                  //   address
-                  Row(
-                    children: [
-                      //   icon
-                      const Icon(
-                        Icons.location_on_outlined,
-                        color: AppColors.kGrey40,
-                        size: 18,
-                      ),
-                      8.horizontalSpacing,
-                      AppText(
-                        apartment!.location,
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: AppColors.kGrey40,
+                          child: AppText(
+                            apartment!.type,
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.kPrimary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
+                        _buildStat(Icons.star_outlined, '${apartment!.rating}'),
+                      ],
+                    ),
+
+                    16.verticalSpacing,
+
+                    // apartment name
+                    AppText(
+                      apartment!.name,
+                      style: context.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.kGrey80,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+
+                    8.verticalSpacing,
+
+                    //   address
+                    Row(
+                      children: [
+                        //   icon
+                        const Icon(
+                          Icons.location_on_outlined,
+                          color: AppColors.kGrey40,
+                          size: 18,
+                        ),
+                        8.horizontalSpacing,
+                        AppText(
+                          apartment!.location,
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: AppColors.kGrey40,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    //   apartment description
+                    32.verticalSpacing,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          'Details',
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: AppColors.kGrey80,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        8.verticalSpacing,
+                        AppText(
+                          apartment!.description,
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: AppColors.kGrey40,
+                            height: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // amenities
+                    32.verticalSpacing,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          'Amenities',
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: AppColors.kGrey80,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        8.verticalSpacing,
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            for (final amenity in amenitiesList)
+                              _buildAmenity(amenity),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -235,13 +340,20 @@ class _ApartmentViewState extends State<ApartmentView> {
   Widget _buildStat(IconData icon, String text) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: AppColors.kGrey80),
-        const SizedBox(width: 4),
-        AppText(
-          text,
+        Icon(icon, size: 18, color: AppColors.kWarning50),
+        8.horizontalSpacing,
+
+        AppRichText(
           style: context.textTheme.bodySmall?.copyWith(
-            color: AppColors.kGrey80,
+            color: AppColors.kGrey40,
+            fontWeight: FontWeight.w600,
           ),
+          spans: [
+            TextSpan(
+              text: text,
+            ),
+            const TextSpan(text: '/5.0'),
+          ],
         ),
       ],
     );
@@ -249,10 +361,10 @@ class _ApartmentViewState extends State<ApartmentView> {
 
   Widget _buildAmenity(String label) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
-        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.kGrey5),
+        borderRadius: BorderRadius.circular(AppRadius.medium),
       ),
       child: AppText(
         label,
