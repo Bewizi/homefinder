@@ -11,6 +11,7 @@ class HomesDomain {
     required this.baths,
     required this.sqft,
     required this.images,
+    required this.description,
   });
 
   factory HomesDomain.fromMap(Map<String, dynamic> json) {
@@ -28,6 +29,7 @@ class HomesDomain {
       images: json['images'] != null
           ? List<String>.from(json['images'] as List)
           : [],
+      description: json['description'] as String,
     );
   }
 
@@ -42,6 +44,7 @@ class HomesDomain {
   final String sqft;
   final String price_per_month;
   final List<String> images;
+  final String description;
 
   HomesDomain copyWith({
     String? id,
@@ -54,6 +57,7 @@ class HomesDomain {
     String? baths,
     String? sqft,
     String? price_per_month,
+    String? description,
     List<String>? images,
   }) {
     return HomesDomain(
@@ -68,6 +72,7 @@ class HomesDomain {
       sqft: sqft ?? this.sqft,
       price_per_month: price_per_month ?? this.price_per_month,
       images: images ?? this.images,
+      description: description ?? this.description,
     );
   }
 
@@ -84,6 +89,7 @@ class HomesDomain {
       'sqft': sqft,
       'price_per_month': price_per_month,
       'images': images,
+      'description': description,
     };
   }
 
