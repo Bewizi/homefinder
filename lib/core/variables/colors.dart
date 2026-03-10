@@ -14,9 +14,12 @@ class AppColors {
   static const Color kGrey40 = Color(0xFF525252);
   static const Color kGrey70 = Color(0xFF1F1F1F);
   static const Color kGrey80 = Color(0xFF171717);
+  static const Color kDestructive5 = Color(0xFFFFF1F2);
   static const Color kDestructive50 = Color(0xFFF43F5E);
+  static const Color kDestructive60 = Color(0xFFE11D48);
   static const Color kSuccess50 = Color(0xFF22C55E);
   static const Color kSuccess5 = Color(0xFFF0FDF4);
+  static const Color kSuccess10 = Color(0xFFDCFCE7);
   static const Color kWarning50 = Color(0xFFF59E0B);
   static const Color kTransparent = Color(0x00000000);
 }
