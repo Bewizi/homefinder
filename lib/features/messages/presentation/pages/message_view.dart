@@ -16,6 +16,7 @@ class MessageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      // padding: EdgeInsets.zero,
       appbar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -107,59 +108,64 @@ class MessageView extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: AppInset.screenSymmetric,
-        child: Container(
-          width: MediaQuery.sizeOf(context).width,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.kGrey80.withValues(alpha: 0.10),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-                spreadRadius: -4,
+
+          //   message input text
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+            child: Container(
+              width: MediaQuery.sizeOf(context).width,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.kGrey80.withValues(alpha: 0.10),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                    spreadRadius: -4,
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: TextFormField(
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(12),
-              filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppRadius.fullRadius),
-                borderSide: const BorderSide(color: AppColors.kGrey5),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppRadius.fullRadius),
-                borderSide: const BorderSide(color: AppColors.kGrey5),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppRadius.fullRadius),
-                borderSide: const BorderSide(color: AppColors.kGrey5),
-              ),
-              fillColor: AppColors.kWhite,
-              hintText: 'Write your message here...',
-              prefixIcon: const Icon(Icons.add, color: AppColors.kGrey30),
-              suffixIcon: const Padding(
-                padding: EdgeInsets.only(right: 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(FontAwesomeIcons.microphone, color: AppColors.kGrey30),
-                    SizedBox(width: 8),
-                    Icon(Icons.send_outlined, color: AppColors.kPrimary),
-                  ],
+              child: TextFormField(
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(12),
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.fullRadius),
+                    borderSide: const BorderSide(color: AppColors.kGrey5),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.fullRadius),
+                    borderSide: const BorderSide(color: AppColors.kGrey5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.fullRadius),
+                    borderSide: const BorderSide(color: AppColors.kGrey5),
+                  ),
+                  fillColor: AppColors.kWhite,
+                  hintText: 'Write your message here...',
+                  prefixIcon: const Icon(Icons.add, color: AppColors.kGrey30),
+                  suffixIcon: const Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.microphone,
+                          color: AppColors.kGrey30,
+                        ),
+                        SizedBox(width: 8),
+                        Icon(Icons.send_outlined, color: AppColors.kPrimary),
+                      ],
+                    ),
+                  ),
+                  hintStyle: context.textTheme.titleSmall?.copyWith(
+                    color: AppColors.kGrey40,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              hintStyle: context.textTheme.titleSmall?.copyWith(
-                color: AppColors.kGrey40,
-                fontWeight: FontWeight.w500,
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
