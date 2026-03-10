@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
@@ -16,11 +17,9 @@ class ProfilePage extends StatelessWidget {
     {
       'icon': Icons.person_outline,
       'text': 'My Account',
+      'route': '/users-account',
     },
-    {
-      'icon': Icons.settings_outlined,
-      'text': 'Settings',
-    },
+    {'icon': Icons.settings_outlined, 'text': 'Settings', 'route': '/settings'},
     {
       'icon': Icons.apartment_outlined,
       'text': 'Apartment',
@@ -75,7 +74,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             32.verticalSpacing,
-            // Using ListView.separated for the profile options
+
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -89,8 +88,11 @@ class ProfilePage extends StatelessWidget {
                   iconContainerColor: option['color'] as Color?,
                   iconColor: option['iconColor'] as Color?,
                   textColor: option['textColor'] as Color?,
-                  onTap: () {
-                    // TODO: Handle navigation
+                  onTap: () async {
+                    final route = option['route'] as String?;
+                    if (route != null) {
+                      await context.push(route);
+                    }
                   },
                 );
               },
