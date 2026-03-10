@@ -12,6 +12,7 @@ import 'package:homefinder/features/home/presentation/pages/see_all_homes.dart';
 import 'package:homefinder/features/messages/presentation/pages/message_view.dart';
 import 'package:homefinder/features/messages/presentation/pages/messages_page.dart';
 import 'package:homefinder/features/onboarding/onboarding_screen.dart';
+import 'package:homefinder/features/profile/presentation/pages/profile_page.dart';
 import 'package:homefinder/features/saved/presentation/pages/saved_page.dart';
 import 'package:homefinder/features/splash_screen/splash_screen.dart';
 
@@ -103,6 +104,7 @@ class MessageViewRoute extends GoRouteData with $MessageViewRoute {
 @TypedGoRoute<ApartmentViewRoute>(path: '/apartment-view/:id')
 class ApartmentViewRoute extends GoRouteData with $ApartmentViewRoute {
   final String id;
+
   const ApartmentViewRoute({required this.id});
 
   @override
@@ -177,7 +179,7 @@ class MessagesPageRoute extends GoRouteData with $MessagesPageRoute {
 class ProfilePageRoute extends GoRouteData with $ProfilePageRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const Scaffold(body: Center(child: Text('Profile Page')));
+      const ProfilePage();
 }
 
 // Bottom nav scaffold
