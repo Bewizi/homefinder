@@ -132,7 +132,7 @@ class _ApartmentViewState extends State<ApartmentView> {
                 ),
               ),
             ),
-            padding: EdgeInsets.zero,
+            padding: false,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
