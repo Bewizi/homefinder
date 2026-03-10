@@ -7,6 +7,7 @@ import 'package:homefinder/core/ui/components/app_card.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
+import 'package:homefinder/core/ui/extensions/app_theme_extension.dart';
 import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
@@ -36,20 +37,18 @@ class SavedPage extends StatelessWidget {
                   children: [
                     AppText(
                       'Saved',
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.kGrey80,
-                          ),
+                      style: context.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.kGrey80,
+                      ),
                     ),
                     8.horizontalSpacing,
                     AppText(
                       '${savedHomes.length}',
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.kPrimary,
-                          ),
+                      style: context.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.kPrimary,
+                      ),
                     ),
                   ],
                 ),
@@ -107,7 +106,7 @@ class SavedPage extends StatelessWidget {
                                                 4.horizontalSpacing,
                                                 AppText(
                                                   home.rating.toString(),
-                                                  style: Theme.of(context)
+                                                  style: context
                                                       .textTheme
                                                       .bodySmall
                                                       ?.copyWith(
@@ -152,9 +151,7 @@ class SavedPage extends StatelessWidget {
                                             home.name,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall
+                                            style: context.textTheme.titleSmall
                                                 ?.copyWith(
                                                   color: AppColors.kGrey80,
                                                   fontWeight: FontWeight.w600,
@@ -165,7 +162,7 @@ class SavedPage extends StatelessWidget {
                                           spans: [
                                             TextSpan(
                                               text: '#${home.price_per_month}M',
-                                              style: Theme.of(context)
+                                              style: context
                                                   .textTheme
                                                   .titleMedium
                                                   ?.copyWith(
@@ -175,9 +172,7 @@ class SavedPage extends StatelessWidget {
                                             ),
                                             TextSpan(
                                               text: '/year',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
+                                              style: context.textTheme.bodySmall
                                                   ?.copyWith(
                                                     color: AppColors.kGrey40,
                                                     fontWeight: FontWeight.w500,
@@ -199,9 +194,7 @@ class SavedPage extends StatelessWidget {
                                         Expanded(
                                           child: AppText(
                                             home.location,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
+                                            style: context.textTheme.bodySmall
                                                 ?.copyWith(
                                                   color: AppColors.kGrey30,
                                                   fontWeight: FontWeight.w500,
@@ -265,7 +258,7 @@ class SavedPage extends StatelessWidget {
         8.horizontalSpacing,
         AppText(
           text,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+          style: context.textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w500,
             color: AppColors.kGrey30,
             fontSize: 10,
