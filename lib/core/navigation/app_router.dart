@@ -13,6 +13,8 @@ import 'package:homefinder/features/messages/presentation/pages/message_view.dar
 import 'package:homefinder/features/messages/presentation/pages/messages_page.dart';
 import 'package:homefinder/features/onboarding/onboarding_screen.dart';
 import 'package:homefinder/features/profile/presentation/pages/profile_page.dart';
+import 'package:homefinder/features/profile/presentation/pages/settings.dart';
+import 'package:homefinder/features/profile/presentation/pages/users_account_update.dart';
 import 'package:homefinder/features/saved/presentation/pages/saved_page.dart';
 import 'package:homefinder/features/splash_screen/splash_screen.dart';
 
@@ -110,6 +112,25 @@ class ApartmentViewRoute extends GoRouteData with $ApartmentViewRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       ApartmentView(id: id);
+}
+
+// users account
+@TypedGoRoute<AccountRoute>(path: AccountRoute.path)
+class AccountRoute extends GoRouteData with $AccountRoute {
+  static const path = '/users-account';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const UsersAccount();
+}
+
+// settings
+@TypedGoRoute<SettingsRoute>(path: SettingsRoute.path)
+class SettingsRoute extends GoRouteData with $SettingsRoute {
+  static const path = '/settings';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const Settings();
 }
 
 //MAIN APP SHELL WITH BOTTOM NAV  (NESTED ROUTING)

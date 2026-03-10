@@ -16,6 +16,8 @@ List<RouteBase> get $appRoutes => [
   $seeAllHomesRoute,
   $messageViewRoute,
   $apartmentViewRoute,
+  $accountRoute,
+  $settingsRoute,
   $appShellRouteData,
 ];
 
@@ -229,6 +231,54 @@ mixin $ApartmentViewRoute on GoRouteData {
   @override
   String get location =>
       GoRouteData.$location('/apartment-view/${Uri.encodeComponent(_self.id)}');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $accountRoute => GoRouteData.$route(
+  path: '/users-account',
+  factory: $AccountRoute._fromState,
+);
+
+mixin $AccountRoute on GoRouteData {
+  static AccountRoute _fromState(GoRouterState state) => AccountRoute();
+
+  @override
+  String get location => GoRouteData.$location('/users-account');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $settingsRoute =>
+    GoRouteData.$route(path: '/settings', factory: $SettingsRoute._fromState);
+
+mixin $SettingsRoute on GoRouteData {
+  static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
+
+  @override
+  String get location => GoRouteData.$location('/settings');
 
   @override
   void go(BuildContext context) => context.go(location);
