@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
+import 'package:homefinder/core/ui/components/app_text_field.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/ui/extensions/app_theme_extension.dart';
+import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/profile/presentation/widgets/build_stat.dart';
 
@@ -20,6 +24,7 @@ class _UsersAccountState extends State<UsersAccount> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appbar: AppBar(
+        forceMaterialTransparency: true,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -29,13 +34,11 @@ class _UsersAccountState extends State<UsersAccount> {
         title: const AppText(
           'My Account',
         ),
-
         titleTextStyle: context.textTheme.headlineSmall?.copyWith(
           fontSize: 20,
           fontWeight: FontWeight.w700,
           color: AppColors.kGrey80,
         ),
-
         centerTitle: false,
       ),
       body: Column(
@@ -63,6 +66,94 @@ class _UsersAccountState extends State<UsersAccount> {
                     4.verticalSpacing,
                     buildStat(context),
                   ],
+                ),
+              ),
+
+              //   form
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.55,
+                child: SingleChildScrollView(
+                  child: Form(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //  full name
+                        const AppTextField(
+                          title: 'Full Name',
+                          hintText: 'Arlene McCoy',
+                          keyboardType: TextInputType.name,
+                          prefixIcon: Icon(
+                            FontAwesomeIcons.user,
+                            size: AppIconSize.regular,
+                          ),
+                        ),
+                        16.verticalSpacing,
+
+                        //  email address
+                        const AppTextField(
+                          title: 'Email Address',
+                          hintText: 'arlenemccoy@gmail.com',
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIcon: Icon(
+                            FontAwesomeIcons.envelope,
+                            size: AppIconSize.regular,
+                          ),
+                        ),
+                        16.verticalSpacing,
+
+                        //  password
+                        AppTextField(
+                          title: 'Password',
+                          hintText: '*****************',
+                          keyboardType: TextInputType.visiblePassword,
+                          prefixIcon: const Icon(
+                            FontAwesomeIcons.lock,
+                            size: AppIconSize.regular,
+                          ),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AppText(
+                                  'Change',
+                                  style: context.textTheme.bodySmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.kPrimary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        16.verticalSpacing,
+
+                        //  phone number
+                        const AppTextField(
+                          title: 'Phone Number',
+                          hintText: '9000-000-000',
+                          keyboardType: TextInputType.phone,
+                          prefixIcon: Icon(Icons.phone),
+                        ),
+
+                        16.verticalSpacing,
+                        const AppTextField(
+                          title: 'Location',
+                          hintText: 'Lagos, Nigeria',
+                          prefixIcon: Icon(Icons.location_on),
+                          suffixIcon: Icon(Icons.map_outlined),
+                        ),
+                        32.verticalSpacing,
+
+                        PrimaryButton(
+                          'Save changes',
+                          pressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],
