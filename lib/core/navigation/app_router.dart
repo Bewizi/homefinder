@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:homefinder/core/variables/app_svg.dart';
+import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/auth/presentaion/pages/forgot/forgot_password.dart';
 import 'package:homefinder/features/auth/presentaion/pages/signin/sign_in.dart';
 import 'package:homefinder/features/auth/presentaion/pages/signup/sign_up.dart';
@@ -220,6 +221,10 @@ class ScaffoldWithBottomNavBar extends StatelessWidget {
         currentIndex: navigationShell.currentIndex,
         onTap: (index) => navigationShell.goBranch(index),
         type: BottomNavigationBarType.fixed,
+        selectedItemColor: AppColors.kPrimary,
+        unselectedItemColor: AppColors.kGrey40,
+        selectedIconTheme: const IconThemeData(color: AppColors.kPrimary),
+        unselectedIconTheme: const IconThemeData(color: AppColors.kGrey40),
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppSvg.kExplore),
@@ -228,14 +233,35 @@ class ScaffoldWithBottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppSvg.kSaved),
             label: 'Saved',
+            activeIcon: SvgPicture.asset(
+              AppSvg.kSaved,
+              colorFilter: const ColorFilter.mode(
+                AppColors.kPrimary,
+                BlendMode.srcIn,
+              ),
+            ),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppSvg.kMessages),
             label: 'Messages',
+            activeIcon: SvgPicture.asset(
+              AppSvg.kMessages,
+              colorFilter: const ColorFilter.mode(
+                AppColors.kPrimary,
+                BlendMode.srcIn,
+              ),
+            ),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppSvg.kProfile),
             label: 'Profile',
+            activeIcon: SvgPicture.asset(
+              AppSvg.kProfile,
+              colorFilter: const ColorFilter.mode(
+                AppColors.kPrimary,
+                BlendMode.srcIn,
+              ),
+            ),
           ),
         ],
       ),
