@@ -12,6 +12,7 @@ import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/home/presentation/homes_bloc/homes_bloc.dart';
+import 'package:homefinder/features/home/presentation/widgets/mixins/filter.dart';
 
 class SeeAllHomes extends StatefulWidget {
   const SeeAllHomes({super.key});
@@ -22,7 +23,7 @@ class SeeAllHomes extends StatefulWidget {
   State<SeeAllHomes> createState() => _SeeAllHomesState();
 }
 
-class _SeeAllHomesState extends State<SeeAllHomes> {
+class _SeeAllHomesState extends State<SeeAllHomes> with FilterBottomSheet {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -55,22 +56,25 @@ class _SeeAllHomesState extends State<SeeAllHomes> {
               ),
 
               8.horizontalSpacing,
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: 8,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    AppRadius.medium,
+              GestureDetector(
+                onTap: () => showFilterBottomSheet(context),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 8,
                   ),
-                  border: Border.all(
-                    width: 2,
-                    color: AppColors.kGrey5,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      AppRadius.medium,
+                    ),
+                    border: Border.all(
+                      width: 2,
+                      color: AppColors.kGrey5,
+                    ),
                   ),
-                ),
-                child: const Icon(
-                  FontAwesomeIcons.sliders,
+                  child: const Icon(
+                    FontAwesomeIcons.sliders,
+                  ),
                 ),
               ),
             ],
