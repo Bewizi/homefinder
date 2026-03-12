@@ -26,6 +26,14 @@ class _SeeAllHomesState extends State<SeeAllHomes> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      appbar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,9 +44,12 @@ class _SeeAllHomesState extends State<SeeAllHomes> {
               Expanded(
                 child: SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.8,
-                  child: const AppTextField(
+                  child: AppTextField(
                     hintText: 'search by city, street.....',
-                    prefixIcon: Icon(FontAwesomeIcons.magnifyingGlass),
+                    prefixIcon: const Icon(FontAwesomeIcons.magnifyingGlass),
+                    onChanged: (value) {
+                      context.read<HomesBloc>().add(SearchHomes(value));
+                    },
                   ),
                 ),
               ),
@@ -84,6 +95,11 @@ class _SeeAllHomesState extends State<SeeAllHomes> {
                 }
 
                 if (state is HomesLoaded) {
+                  if (state.homes.isEmpty) {
+                    return const Center(
+                      child: AppText('No homes found'),
+                    );
+                  }
                   return ListView.separated(
                     itemBuilder: (context, index) {
                       final home = state.homes[index];
