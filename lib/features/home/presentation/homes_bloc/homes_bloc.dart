@@ -11,18 +11,34 @@ class HomesBloc extends Bloc<HomesEvent, HomesState> {
     : _homesRepository = homesRepository,
       super(HomesInitial()) {
     on<FetchHomes>(_onFetchHomes);
+    on<SearchHomes>(_onSearchHomes);
     on<ToggleFavorite>(_onToggleFavorite);
   }
 
   final HomesRepository _homesRepository;
+  List<HomesDomain> _allHomes = [];
 
   Future<void> _onFetchHomes(FetchHomes event, Emitter<HomesState> emit) async {
     emit(HomesLoading());
     try {
-      final homes = await _homesRepository.getAllHomes();
-      emit(HomesLoaded(homes));
+      _allHomes = await _homesRepository.getAllHomes();
+      emit(HomesLoaded(_allHomes));
     } on Exception catch (e) {
       emit(HomesError(e.toString()));
+    }
+  }
+
+  void _onSearchHomes(SearchHomes event, Emitter<HomesState> emit) {
+    if (event.query.isEmpty) {
+      emit(HomesLoaded(_allHomes));
+    } else {
+      final filteredHomes = _allHomes
+          .where(
+            (home) =>
+                home.name.toLowerCase().contains(event.query.toLowerCase()),
+          )
+          .toList();
+      emit(HomesLoaded(filteredHomes));
     }
   }
 
@@ -35,6 +51,14 @@ class HomesBloc extends Bloc<HomesEvent, HomesState> {
         }
         return home;
       }).toList();
+
+      _allHomes = _allHomes.map((home) {
+        if (home.id == event.homeId) {
+          return home.copyWith(isFavourite: !home.isFavourite);
+        }
+        return home;
+      }).toList();
+
       emit(HomesLoaded(updatedHomes));
     }
   }
