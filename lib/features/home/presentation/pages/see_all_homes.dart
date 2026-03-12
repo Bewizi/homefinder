@@ -34,6 +34,7 @@ class _SeeAllHomesState extends State<SeeAllHomes> with FilterBottomSheet {
           },
           icon: const Icon(Icons.arrow_back),
         ),
+        forceMaterialTransparency: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
