@@ -17,6 +17,7 @@ class AppTextField extends StatelessWidget {
     this.suffixIcon,
     this.prefixIconConstraints,
     this.onSuffixIconTap,
+    this.onChanged,
     super.key,
   });
 
@@ -31,11 +32,13 @@ class AppTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final BoxConstraints? prefixIconConstraints;
   final VoidCallback? onSuffixIconTap;
+  final void Function(String)? onChanged;
 
   Widget _buildTextFormField(BuildContext context) {
     return TextFormField(
       validator: validator,
       controller: controller,
+      onChanged: onChanged,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.medium),
