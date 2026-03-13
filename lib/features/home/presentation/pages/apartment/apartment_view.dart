@@ -11,6 +11,8 @@ import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/home/domain/homes_domain.dart';
 import 'package:homefinder/features/home/presentation/homes_bloc/homes_bloc.dart';
+import 'package:homefinder/features/home/presentation/pages/apartment/widgets/media_bottom_sheet.dart';
+import 'package:homefinder/features/home/presentation/pages/apartment/widgets/tabview_options.dart';
 import 'package:homefinder/features/home/presentation/widgets/navigation_arrow.dart';
 import 'package:homefinder/features/home/presentation/widgets/page_indicator.dart';
 import 'package:homefinder/features/home/presentation/widgets/pricing_table.dart';
@@ -67,6 +69,18 @@ class _ApartmentViewState extends State<ApartmentView> {
     }
   }
 
+  void _showMediaBottomSheet(HomesDomain apartment, int initialIndex) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => MediaBottomSheet(
+        apartment: apartment,
+        initialIndex: initialIndex,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomesBloc, HomesState>(
@@ -86,7 +100,7 @@ class _ApartmentViewState extends State<ApartmentView> {
           return AppScaffold(
             bottomNavigationBar: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              height: MediaQuery.sizeOf(context).height * 0.095,
+              height: MediaQuery.sizeOf(context).height * 0.11,
               decoration: BoxDecoration(
                 color: AppColors.kWhite,
                 boxShadow: [
@@ -99,7 +113,7 @@ class _ApartmentViewState extends State<ApartmentView> {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
+                  horizontal: 24,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,7 +136,7 @@ class _ApartmentViewState extends State<ApartmentView> {
                       ],
                     ),
                     PrimaryButton(
-                      width: MediaQuery.sizeOf(context).width * 0.3,
+                      width: MediaQuery.sizeOf(context).width * 0.35,
                       'Message',
                       pressed: () {},
                       color: AppColors.kPrimary,
@@ -137,7 +151,7 @@ class _ApartmentViewState extends State<ApartmentView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 300,
+                  height: 450,
                   child: Stack(
                     children: [
                       if (apartment.images.isNotEmpty)
@@ -153,7 +167,7 @@ class _ApartmentViewState extends State<ApartmentView> {
                         Image.asset(
                           width: double.infinity,
                           apartment.image,
-                          height: 300,
+                          height: 450,
                           fit: BoxFit.cover,
                         ),
                       Positioned(
@@ -186,13 +200,29 @@ class _ApartmentViewState extends State<ApartmentView> {
                       Positioned(
                         right: 0,
                         left: 0,
-                        bottom: 20,
+                        bottom: 80,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(
                             apartment.images.length,
                             (index) =>
                                 PageIndicator(isActive: index == _currentIndex),
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        bottom: 20,
+                        left: 16,
+                        right: 16,
+                        child: Center(
+                          child: TabviewOptions(
+                            onPicturesTap: () =>
+                                _showMediaBottomSheet(apartment, 0),
+                            onVideosTap: () =>
+                                _showMediaBottomSheet(apartment, 1),
+                            onLocationTap: () =>
+                                _showMediaBottomSheet(apartment, 2),
                           ),
                         ),
                       ),
@@ -411,40 +441,44 @@ class _ApartmentViewState extends State<ApartmentView> {
   }
 
   Widget _buildTopBar(BuildContext context, HomesDomain apartment) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        IconButton(
-          icon: const Icon(
-            Icons.arrow_back_outlined,
-            color: AppColors.kWhite,
+    return SafeArea(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            icon: const Icon(
+              Icons.arrow_back_outlined,
+              color: AppColors.kWhite,
+            ),
+            onPressed: () => Navigator.pop(context),
           ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        Row(
-          children: [
-            IconButton(
-              icon: const Icon(
-                Icons.ios_share,
-                color: AppColors.kWhite,
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.ios_share,
+                  color: AppColors.kWhite,
+                ),
+                onPressed: () {},
               ),
-              onPressed: () {},
-            ),
-            16.horizontalSpacing,
-            IconButton(
-              icon: Icon(
-                apartment.isFavourite ? Icons.favorite : Icons.favorite_border,
-                color: apartment.isFavourite
-                    ? AppColors.kDestructive50
-                    : AppColors.kWhite,
+              16.horizontalSpacing,
+              IconButton(
+                icon: Icon(
+                  apartment.isFavourite
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: apartment.isFavourite
+                      ? AppColors.kDestructive50
+                      : AppColors.kWhite,
+                ),
+                onPressed: () {
+                  context.read<HomesBloc>().add(ToggleFavorite(apartment.id));
+                },
               ),
-              onPressed: () {
-                context.read<HomesBloc>().add(ToggleFavorite(apartment.id));
-              },
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 
