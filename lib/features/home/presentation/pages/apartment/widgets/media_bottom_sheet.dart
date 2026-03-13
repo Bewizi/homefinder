@@ -54,7 +54,7 @@ class _MediaBottomSheetState extends State<MediaBottomSheet>
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -137,7 +137,7 @@ class _MediaBottomSheetState extends State<MediaBottomSheet>
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: const BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.kWhite,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
