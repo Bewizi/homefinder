@@ -212,7 +212,7 @@ class _ApartmentViewState extends State<ApartmentView> {
                       ),
 
                       Positioned(
-                        bottom: 20,
+                        bottom: 0,
                         left: 16,
                         right: 16,
                         child: Center(
