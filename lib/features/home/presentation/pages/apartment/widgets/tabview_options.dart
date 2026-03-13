@@ -21,8 +21,15 @@ class TabviewOptions extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.kBlack.withValues(alpha: 0.1),
+        color: AppColors.kBrand5,
         borderRadius: BorderRadius.circular(AppRadius.fullRadius),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.kBlack.withValues(alpha: 0.4),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -51,7 +58,7 @@ class TabviewOptions extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.kWhite : Colors.transparent,
+          color: isSelected ? AppColors.kWhite : AppColors.kTransparent,
           borderRadius: BorderRadius.circular(AppRadius.fullRadius),
           boxShadow: isSelected
               ? [
@@ -66,7 +73,7 @@ class TabviewOptions extends StatelessWidget {
         child: AppText(
           label,
           style: context.textTheme.bodySmall?.copyWith(
-            color: isSelected ? AppColors.kBlack : AppColors.kWhite,
+            color: isSelected ? AppColors.kBlack : AppColors.kGrey40,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
           ),
         ),
