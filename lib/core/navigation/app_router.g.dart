@@ -18,6 +18,7 @@ List<RouteBase> get $appRoutes => [
   $apartmentViewRoute,
   $accountRoute,
   $settingsRoute,
+  $otpScreenRoute,
   $appShellRouteData,
 ];
 
@@ -279,6 +280,29 @@ mixin $SettingsRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/settings');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $otpScreenRoute =>
+    GoRouteData.$route(path: '/otp', factory: $OtpScreenRoute._fromState);
+
+mixin $OtpScreenRoute on GoRouteData {
+  static OtpScreenRoute _fromState(GoRouterState state) => OtpScreenRoute();
+
+  @override
+  String get location => GoRouteData.$location('/otp');
 
   @override
   void go(BuildContext context) => context.go(location);

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:homefinder/core/variables/app_svg.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/auth/presentaion/pages/forgot/forgot_password.dart';
+import 'package:homefinder/features/auth/presentaion/pages/otp/otp_screen.dart';
 import 'package:homefinder/features/auth/presentaion/pages/signin/sign_in.dart';
 import 'package:homefinder/features/auth/presentaion/pages/signup/sign_up.dart';
 import 'package:homefinder/features/getStarted/get_started.dart';
@@ -132,6 +133,15 @@ class SettingsRoute extends GoRouteData with $SettingsRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const Settings();
+}
+
+// otp
+@TypedGoRoute<OtpScreenRoute>(path: OtpScreenRoute.path)
+class OtpScreenRoute extends GoRouteData with $OtpScreenRoute {
+  static const path = '/otp';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const OtpScreen();
 }
 
 //MAIN APP SHELL WITH BOTTOM NAV  (NESTED ROUTING)
