@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
@@ -84,7 +85,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
                 PrimaryButton(
                   'Send OTP Code',
-                  pressed: () => OtpScreenRoute().go(context),
+                  pressed: () => context.push(OtpScreenRoute.path),
                 ),
               ],
             ),
