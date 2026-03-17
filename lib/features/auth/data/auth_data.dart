@@ -41,10 +41,16 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> login(String email, String password) async {
     try {
-      await supaBase.auth.signInWithPassword(
+      final res = await supaBase.auth.signInWithPassword(
         email: email,
         password: password,
       );
+
+      final session = res.session;
+      final user = res.user;
+      if (session != null || user != null) {
+        print('Invalid User');
+      }
     } catch (e) {
       throw Exception('Error Logging In: $e');
     }
