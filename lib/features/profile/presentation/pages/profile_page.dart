@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
@@ -7,6 +9,7 @@ import 'package:homefinder/core/ui/extensions/app_theme_extension.dart';
 import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
+import 'package:homefinder/features/auth/presentaion/auth_bloc/auth_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -35,6 +38,7 @@ class ProfilePage extends StatelessWidget {
     {
       'icon': Icons.logout,
       'text': 'Logout',
+      'isLogout': true,
       'color': AppColors.kDestructive5,
       'iconColor': AppColors.kDestructive60,
       'textColor': AppColors.kDestructive50,
@@ -43,63 +47,107 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            24.verticalSpacing,
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(
-                      'https://images.unsplash.com/photo-1763757321139-e7e4de128cd9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzaG90JTIwYmxhY2slMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D',
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is UnAuthenticated) {
+          SignInRoute().go(context);
+        }
+      },
+      child: AppScaffold(
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              24.verticalSpacing,
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(
+                        'https://images.unsplash.com/photo-1763757321139-e7e4de128cd9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzaG90JTIwYmxhY2slMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D',
+                      ),
                     ),
-                  ),
-                  16.verticalSpacing,
-                  AppText(
-                    'Arlene McCoy',
-                    style: context.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.kGrey80,
+                    16.verticalSpacing,
+                    BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, state) {
+                        String name = 'User';
+                        if (state is Authenticated) {
+                          name = state.user.fullName;
+                        }
+                        return AppText(
+                          name,
+                          style: context.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.kGrey80,
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                  4.verticalSpacing,
-                  _buildStat(context),
-                ],
+                    4.verticalSpacing,
+                    _buildStat(context),
+                  ],
+                ),
               ),
-            ),
-            32.verticalSpacing,
-
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: profileOptions.length,
-              separatorBuilder: (context, index) => 16.verticalSpacing,
-              itemBuilder: (context, index) {
-                final option = profileOptions[index];
-                return ProfileOption(
-                  option['text'] as String,
-                  option['icon'] as IconData,
-                  iconContainerColor: option['color'] as Color?,
-                  iconColor: option['iconColor'] as Color?,
-                  textColor: option['textColor'] as Color?,
-                  onTap: () async {
-                    final route = option['route'] as String?;
-                    if (route != null) {
-                      await context.push(route);
-                    }
-                  },
-                );
-              },
-            ),
-            24.verticalSpacing,
-          ],
+              32.verticalSpacing,
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: profileOptions.length,
+                separatorBuilder: (context, index) => 16.verticalSpacing,
+                itemBuilder: (context, index) {
+                  final option = profileOptions[index];
+                  return ProfileOption(
+                    option['text'] as String,
+                    option['icon'] as IconData,
+                    iconContainerColor: option['color'] as Color?,
+                    iconColor: option['iconColor'] as Color?,
+                    textColor: option['textColor'] as Color?,
+                    onTap: () {
+                      if (option['isLogout'] == true) {
+                        _showLogoutDialog(context);
+                      } else {
+                        final route = option['route'] as String?;
+                        if (route != null) {
+                          context.push(route);
+                        }
+                      }
+                    },
+                  );
+                },
+              ),
+              24.verticalSpacing,
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const AppText('Logout'),
+        content: const AppText('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const AppText('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              context.read<AuthBloc>().add(Logout());
+            },
+            child: const AppText(
+              'Logout',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
       ),
     );
   }
