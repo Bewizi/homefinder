@@ -26,7 +26,8 @@ class MessagesPage extends StatelessWidget {
       'unreadCount': '3',
     },
     {
-      'imageUrl': 'https://mockmind-api.uifaces.co/content/human/209.jpg',
+      'imageUrl':
+          'https://plus.unsplash.com/premium_photo-1692873058087-02e40f29d3df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzd8fGhlYWRzaG90JTIwbmlnZXJpYW4lMjBibGFjayUyMHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D',
       'name': 'Floyd Miles',
       'message': 'Lorem ipsum do eiusmod tempor ut la...',
       'isOnline': true,
@@ -34,7 +35,8 @@ class MessagesPage extends StatelessWidget {
       'unreadCount': '2',
     },
     {
-      'imageUrl': 'https://mockmind-api.uifaces.co/content/human/169.jpg',
+      'imageUrl':
+          'https://images.unsplash.com/photo-1739566583814-fcead808e96f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGhlYWRzaG90JTIwbmlnZXJpYW4lMjBibGFjayUyMHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D',
       'name': 'Cameron Williamson',
       'message': 'Lorem ipsum dolor sit amet, consequen...',
       'isOnline': false,
