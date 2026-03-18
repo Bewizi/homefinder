@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       BorderRadius.circular(
                                                         AppRadius.medium,
                                                       ),
-                                                  child: Image.asset(
+                                                  child: Image.network(
                                                     home.image,
                                                     fit: BoxFit.cover,
                                                     height: 200,
@@ -325,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   spans: [
                                                     TextSpan(
                                                       text:
-                                                          '#${home.price_per_month}M',
+                                                          '#${home.price_per_month.toStringAsFixed(2)}M',
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .headlineSmall
