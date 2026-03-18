@@ -164,7 +164,7 @@ class _ApartmentViewState extends State<ApartmentView> {
                           },
                         ),
                       if (apartment.images.isEmpty)
-                        Image.asset(
+                        Image.network(
                           width: double.infinity,
                           apartment.image,
                           height: 450,
@@ -432,7 +432,7 @@ class _ApartmentViewState extends State<ApartmentView> {
   ) {
     return Padding(
       padding: EdgeInsets.zero,
-      child: Image.asset(
+      child: Image.network(
         image,
         height: 100,
         fit: BoxFit.cover,
