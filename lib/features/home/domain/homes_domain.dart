@@ -18,20 +18,20 @@ class HomesDomain {
   factory HomesDomain.fromMap(Map<String, dynamic> json) {
     return HomesDomain(
       id: json['id'] as String,
-      name: json['name'] as String,
-      image: json['image'] as String,
-      rating: (json['rating'] as num).toDouble(),
-      location: json['location'] as String,
-      price_per_month: json['price_per_month'] as String,
-      type: json['type'] as String,
-      beds: json['beds'] as String,
-      baths: json['baths'] as String,
-      sqft: json['sqft'] as String,
+      name: json['name'] as String? ?? '',
+      image: json['image'] as String? ?? '',
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      location: json['location'] as String? ?? '',
+      price_per_month: (json['price_per_month'] as num?)?.toDouble() ?? 0.0,
+      type: json['type'] as String? ?? 'House',
+      beds: (json['beds'] as num?)?.toInt() ?? 0,
+      baths: (json['bath'] as num?)?.toInt() ?? 0,
+      sqft: (json['sqft'] as num?)?.toInt() ?? 0,
       isFavourite: json['is_favourite'] as bool? ?? false,
       images: json['images'] != null
           ? List<String>.from(json['images'] as List)
           : [],
-      description: json['description'] as String,
+      description: json['description'] as String? ?? '',
     );
   }
 
@@ -41,10 +41,10 @@ class HomesDomain {
   final double rating;
   final String location;
   final String type;
-  final String beds;
-  final String baths;
-  final String sqft;
-  final String price_per_month;
+  final int beds;
+  final int baths;
+  final int sqft;
+  final double price_per_month;
   final List<String> images;
   final String description;
   final bool isFavourite;
@@ -56,10 +56,10 @@ class HomesDomain {
     double? rating,
     String? location,
     String? type,
-    String? beds,
-    String? baths,
-    String? sqft,
-    String? price_per_month,
+    int? beds,
+    int? baths,
+    int? sqft,
+    double? price_per_month,
     String? description,
     List<String>? images,
     bool? isFavourite,
@@ -90,12 +90,12 @@ class HomesDomain {
       'location': location,
       'type': type,
       'beds': beds,
-      'baths': baths,
+      'bath': baths,
       'sqft': sqft,
       'price_per_month': price_per_month,
       'images': images,
       'description': description,
-      'is_favourite': isFavourite,
+      // 'is_favourite' is not typically stored in the homes table itself
     };
   }
 
