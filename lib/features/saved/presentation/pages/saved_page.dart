@@ -74,7 +74,7 @@ class SavedPage extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(
                                             AppRadius.medium,
                                           ),
-                                          child: Image.asset(
+                                          child: Image.network(
                                             home.image,
                                             fit: BoxFit.cover,
                                             height: 200,
