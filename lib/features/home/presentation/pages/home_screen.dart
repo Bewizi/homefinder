@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:homefinder/core/data/dummy_data/dummy_homes.dart';
 import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_card.dart';
@@ -14,6 +15,7 @@ import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/home/presentation/homes_bloc/homes_bloc.dart';
 import 'package:homefinder/features/home/presentation/pages/recommended_homes_view.dart';
 import 'package:homefinder/features/home/presentation/pages/see_all_homes.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -131,9 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Homes Near You Section
                   BlocBuilder<HomesBloc, HomesState>(
                     builder: (context, state) {
-                      if (state is HomesLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                      // if (state is HomesLoading) {
+                      //   return const Center(child: CircularProgressIndicator());
+                      // }
                       if (state is HomesError) {
                         return Center(
                           child: AppText(
@@ -142,42 +144,52 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       }
-                      if (state is HomesLoaded) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AppText(
-                                  'Homes Near You',
-                                  style: Theme.of(context).textTheme.titleMedium
+
+                      final isLoading = state is HomesLoading;
+                      final displayHomes = state is HomesLoaded
+                          ? state.homes
+                          : List.generate(5, (index) => dummyHome);
+
+                      if (state is HomesLoaded && state.homes.isEmpty) {
+                        return const Center(child: AppText('No homes found'));
+                      }
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppText(
+                                'Homes Near You',
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(
+                                      color: AppColors.kGray50,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
+                              GestureDetector(
+                                onTap: () =>
+                                    context.push(SeeAllHomes.routeName),
+                                child: AppText(
+                                  'See all',
+                                  style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(
-                                        color: AppColors.kGray50,
-                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.kPrimary,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                 ),
-                                GestureDetector(
-                                  onTap: () =>
-                                      context.push(SeeAllHomes.routeName),
-                                  child: AppText(
-                                    'See all',
-                                    style: Theme.of(context).textTheme.bodySmall
-                                        ?.copyWith(
-                                          color: AppColors.kPrimary,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            8.verticalSpacing,
-                            SizedBox(
-                              height: 350,
+                              ),
+                            ],
+                          ),
+                          8.verticalSpacing,
+                          SizedBox(
+                            height: 350,
+                            child: Skeletonizer(
+                              enabled: isLoading,
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  final home = state.homes[index];
+                                  final home = displayHomes[index];
                                   return SizedBox(
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.8,
@@ -418,14 +430,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 separatorBuilder: (_, _) =>
                                     24.horizontalSpacing,
-                                itemCount: state.homes.length > 3
+                                itemCount: displayHomes.length > 3
                                     ? 3
-                                    : state.homes.length,
+                                    : displayHomes.length,
                               ),
                             ),
-                          ],
-                        );
-                      }
+                          ),
+                        ],
+                      );
+
                       return Center(
                         child: AppText(
                           'No Data',
