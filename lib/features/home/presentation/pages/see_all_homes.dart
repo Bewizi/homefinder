@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:homefinder/core/data/dummy_data/dummy_homes.dart';
 import 'package:homefinder/core/navigation/app_router.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_card.dart';
@@ -13,6 +14,7 @@ import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/home/presentation/homes_bloc/homes_bloc.dart';
 import 'package:homefinder/features/home/presentation/widgets/mixins/filter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class SeeAllHomes extends StatefulWidget {
   const SeeAllHomes({super.key});
@@ -84,33 +86,30 @@ class _SeeAllHomesState extends State<SeeAllHomes> with FilterBottomSheet {
           Expanded(
             child: BlocBuilder<HomesBloc, HomesState>(
               builder: (context, state) {
-                if (state is HomesLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
                 if (state is HomesError) {
-                  return Center(
-                    child: AppText(
-                      state.message,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                  );
+                  return Center(child: AppText(state.message));
                 }
 
-                if (state is HomesLoaded) {
-                  if (state.homes.isEmpty) {
-                    return const Center(
-                      child: AppText('No homes found'),
-                    );
-                  }
-                  return ListView.separated(
+                final isLoading = state is HomesLoading;
+                final displayHomes = state is HomesLoaded
+                    ? state.homes
+                    : List.generate(5, (index) => dummyHome);
+
+                if (state is HomesLoaded && state.homes.isEmpty) {
+                  return const Center(child: AppText('No homes found'));
+                }
+
+                return Skeletonizer(
+                  enabled: isLoading,
+                  child: ListView.separated(
+                    itemCount: displayHomes.length,
                     itemBuilder: (context, index) {
-                      final home = state.homes[index];
+                      final home = displayHomes[index];
                       return GestureDetector(
-                        onTap: () =>
-                            ApartmentViewRoute(id: home.id).push(context),
+                        onTap: isLoading
+                            ? null
+                            : () =>
+                                  ApartmentViewRoute(id: home.id).push(context),
                         child: AppCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,11 +120,21 @@ class _SeeAllHomesState extends State<SeeAllHomes> with FilterBottomSheet {
                                     borderRadius: BorderRadius.circular(
                                       AppRadius.medium,
                                     ),
-                                    child: Image.network(
-                                      home.image,
-                                      fit: BoxFit.cover,
-                                      height: 200,
+                                    child: Skeleton.replace(
                                       width: double.infinity,
+                                      height: 200,
+                                      child: Image.network(
+                                        home.image,
+                                        fit: BoxFit.cover,
+                                        height: 200,
+                                        width: double.infinity,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Container(
+                                                  height: 200,
+                                                  color: Colors.grey[300],
+                                                ),
+                                      ),
                                     ),
                                   ),
                                   Positioned.fill(
@@ -308,13 +317,6 @@ class _SeeAllHomesState extends State<SeeAllHomes> with FilterBottomSheet {
                       );
                     },
                     separatorBuilder: (_, _) => 16.verticalSpacing,
-                    itemCount: state.homes.length,
-                  );
-                }
-                return Center(
-                  child: AppText(
-                    'No Data',
-                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 );
               },
