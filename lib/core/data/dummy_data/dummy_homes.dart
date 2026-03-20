@@ -3,7 +3,7 @@ import 'package:homefinder/features/home/domain/homes_domain.dart';
 final dummyHome = HomesDomain(
   id: 'Loading',
   name: 'Loading Home Name',
-  image: '',
+  image: 'https://placehold.co/600x400/png',
   rating: 0.0,
   location: 'Loading Location ...',
   price_per_month: 0,
