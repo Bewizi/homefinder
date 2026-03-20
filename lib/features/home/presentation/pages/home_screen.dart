@@ -15,6 +15,7 @@ import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/home/presentation/homes_bloc/homes_bloc.dart';
 import 'package:homefinder/features/home/presentation/pages/recommended_homes_view.dart';
 import 'package:homefinder/features/home/presentation/pages/see_all_homes.dart';
+import 'package:homefinder/features/home/presentation/widgets/mixins/access_location.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,7 +27,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with AccessLocation {
   int activeIndex = 0;
 
   List<String> homeFilter = const [
@@ -58,25 +59,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       ).textTheme.bodySmall?.copyWith(color: AppColors.kGray30),
                     ),
                     8.verticalSpacing,
-                    Row(
-                      children: [
-                        const Icon(
-                          FontAwesomeIcons.locationDot,
-                          color: AppColors.kPrimary,
-                          size: AppIconSize.medium,
-                        ),
-                        4.horizontalSpacing,
-                        Expanded(
-                          child: AppText(
-                            'Lagos, Nigeria',
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
+                    GestureDetector(
+                      onTap: () => showAccessLocationBottomSheet(context),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            FontAwesomeIcons.locationDot,
+                            color: AppColors.kPrimary,
+                            size: AppIconSize.medium,
                           ),
-                        ),
-                      ],
+                          4.horizontalSpacing,
+                          Expanded(
+                            child: AppText(
+                              'Lagos, Nigeria',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: AppColors.kGrey30,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
