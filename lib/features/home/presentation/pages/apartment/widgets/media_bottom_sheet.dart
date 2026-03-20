@@ -89,7 +89,16 @@ class _MediaBottomSheetState extends State<MediaBottomSheet>
               children: [
                 _buildMediaList(
                   widget.apartment.images,
-                  ['Exterior-Front View', 'Interior -Sitting Room', 'Bedroom'],
+                  [
+                    'Exterior-Front View',
+                    'Exterior-Front View',
+                    'Living Room',
+                    'Kitchen',
+                    'Bedroom 1',
+                    'Bedroom 2',
+                    'Bathroom 1',
+                    'Bathroom 2',
+                  ],
                   false,
                 ),
                 _buildMediaList(
@@ -126,7 +135,7 @@ class _MediaBottomSheetState extends State<MediaBottomSheet>
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(AppRadius.small),
-                  child: Image.asset(
+                  child: Image.network(
                     image,
                     height: 200,
                     width: double.infinity,
