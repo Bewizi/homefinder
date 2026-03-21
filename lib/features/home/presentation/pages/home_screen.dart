@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:homefinder/core/data/dummy_data/dummy_homes.dart';
 import 'package:homefinder/core/navigation/app_router.dart';
@@ -29,6 +31,55 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with AccessLocation {
   int activeIndex = 0;
+  String _currentAddress = 'Fetching location...';
+
+  @override
+  void initState() {
+    super.initState();
+    displayLocation();
+  }
+
+  Future<void> displayLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      setState(() => _currentAddress = 'Location services disabled');
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        setState(() => _currentAddress = 'Permission denied');
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      setState(() => _currentAddress = 'Permission permanently denied');
+      return;
+    }
+
+    try {
+      Position position = await Geolocator.getCurrentPosition();
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        setState(() {
+          _currentAddress = '${place.locality}, ${place.country}';
+        });
+      }
+    } catch (e) {
+      setState(() => _currentAddress = 'Address not found');
+    }
+  }
 
   List<String> homeFilter = const [
     'All',
@@ -44,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> with AccessLocation {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 1. Location and Notification (FIXED at top)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -60,7 +110,10 @@ class _HomeScreenState extends State<HomeScreen> with AccessLocation {
                     ),
                     8.verticalSpacing,
                     GestureDetector(
-                      onTap: () => showAccessLocationBottomSheet(context),
+                      onTap: () async {
+                        await showAccessLocationBottomSheet(context);
+                        displayLocation();
+                      },
                       child: Row(
                         children: [
                           const Icon(
@@ -71,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> with AccessLocation {
                           4.horizontalSpacing,
                           Expanded(
                             child: AppText(
-                              'Lagos, Nigeria',
+                              _currentAddress,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(
@@ -100,8 +153,6 @@ class _HomeScreenState extends State<HomeScreen> with AccessLocation {
             ],
           ),
           24.verticalSpacing,
-
-          // 2. Home Filter (FIXED at top)
           SizedBox(
             height: MediaQuery.sizeOf(context).height * 0.06,
             child: ListView.separated(
@@ -129,18 +180,12 @@ class _HomeScreenState extends State<HomeScreen> with AccessLocation {
             ),
           ),
           24.verticalSpacing,
-
-          // 3. Scrollable Area (Homes Near You & Recommended Homes)
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // Homes Near You Section
                   BlocBuilder<HomesBloc, HomesState>(
                     builder: (context, state) {
-                      // if (state is HomesLoading) {
-                      //   return const Center(child: CircularProgressIndicator());
-                      // }
                       if (state is HomesError) {
                         return Center(
                           child: AppText(
@@ -398,6 +443,9 @@ class _HomeScreenState extends State<HomeScreen> with AccessLocation {
                                             16.verticalSpacing,
                                             IntrinsicHeight(
                                               child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   _buildFeature(
                                                     FontAwesomeIcons.bed,
@@ -443,18 +491,9 @@ class _HomeScreenState extends State<HomeScreen> with AccessLocation {
                           ),
                         ],
                       );
-
-                      return Center(
-                        child: AppText(
-                          'No Data',
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                      );
                     },
                   ),
                   24.verticalSpacing,
-
-                  // Recommended Homes Section
                   const RecommendedHomesView(),
                 ],
               ),
