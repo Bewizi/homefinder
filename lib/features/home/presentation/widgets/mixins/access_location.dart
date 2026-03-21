@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
@@ -8,6 +9,8 @@ import 'package:homefinder/core/variables/colors.dart';
 
 mixin AccessLocation {
   Future<void> showAccessLocationBottomSheet(BuildContext context) async {
+    final location = Location();
+
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -39,7 +42,6 @@ mixin AccessLocation {
                   ),
                 ],
               ),
-
               AppText(
                 'Access Location',
                 style: context.textTheme.headlineSmall?.copyWith(
@@ -56,12 +58,34 @@ mixin AccessLocation {
               32.verticalSpacing,
               PrimaryButton(
                 'Allow location access',
-                pressed: () {},
+                pressed: () async {
+                  bool serviceEnabled;
+                  PermissionStatus permissionGranted;
+
+                  serviceEnabled = await location.serviceEnabled();
+                  if (!serviceEnabled) {
+                    serviceEnabled = await location.requestService();
+                    if (!serviceEnabled) return;
+                  }
+
+                  permissionGranted = await location.hasPermission();
+                  if (permissionGranted == PermissionStatus.denied) {
+                    permissionGranted = await location.requestPermission();
+                    if (permissionGranted != PermissionStatus.granted) return;
+                  }
+
+                  final locationData = await location.getLocation();
+                  debugPrint(
+                    'Location: ${locationData.latitude}, ${locationData.longitude}',
+                  );
+
+                  if (context.mounted) Navigator.pop(context);
+                },
               ),
               16.verticalSpacing,
               OutlineButton(
                 'Enter location manually',
-                pressed: () {},
+                pressed: () => Navigator.pop(context),
                 bgColor: AppColors.kTransparent,
                 borderColor: AppColors.kGrey30,
                 textColor: AppColors.kGrey30,
