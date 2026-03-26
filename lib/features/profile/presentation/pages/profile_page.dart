@@ -10,6 +10,8 @@ import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/auth/presentaion/auth_bloc/auth_bloc.dart';
+import 'package:homefinder/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:homefinder/features/profile/presentation/bloc/profile_state.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -61,34 +63,39 @@ class ProfilePage extends StatelessWidget {
             children: [
               24.verticalSpacing,
               Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(
-                        'https://images.unsplash.com/photo-1763757321139-e7e4de128cd9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzaG90JTIwYmxhY2slMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D',
-                      ),
-                    ),
-                    16.verticalSpacing,
-                    BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        String name = 'User';
-                        if (state is Authenticated) {
-                          name = state.user.fullName;
-                        }
-                        return AppText(
+                child: BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    String name = 'User';
+                    String? avatarUrl;
+
+                    if (state is ProfileLoaded) {
+                      name = state.profile.fullName;
+                      avatarUrl = state.profile.avatarUrl;
+                    }
+
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(
+                            avatarUrl ??
+                                'https://images.unsplash.com/photo-1763757321139-e7e4de128cd9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzaG90JTIwYmxhY2slMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D',
+                          ),
+                        ),
+                        16.verticalSpacing,
+                        AppText(
                           name,
                           style: context.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w700,
                             color: AppColors.kGrey80,
                           ),
-                        );
-                      },
-                    ),
-                    4.verticalSpacing,
-                    _buildStat(context),
-                  ],
+                        ),
+                        4.verticalSpacing,
+                        _buildStat(context),
+                      ],
+                    );
+                  },
                 ),
               ),
               32.verticalSpacing,
