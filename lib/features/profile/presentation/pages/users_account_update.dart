@@ -128,11 +128,24 @@ class _UsersAccountState extends State<UsersAccount> {
                   16.verticalSpacing,
 
                   //  phone number
-                  const AppTextField(
-                    title: 'Phone Number',
-                    hintText: '9000-000-000',
-                    keyboardType: TextInputType.phone,
-                    prefixIcon: Icon(Icons.phone),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AppTextField(
+                        title: 'Phone Number',
+                        hintText: '9000-000-000',
+                        keyboardType: TextInputType.phone,
+                        prefixIcon: Icon(Icons.phone),
+                      ),
+                      8.verticalSpacing,
+                      AppText(
+                        'You won’t be able to call landlord if this is empty',
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.kGrey40,
+                        ),
+                      ),
+                    ],
                   ),
 
                   16.verticalSpacing,
