@@ -5,6 +5,9 @@ import 'package:homefinder/features/home/data/homes_data.dart';
 import 'package:homefinder/features/home/data/recommended_homes_data.dart';
 import 'package:homefinder/features/home/presentation/homes_bloc/homes_bloc.dart';
 import 'package:homefinder/features/home/presentation/recommended_homes_bloc/recommended_homes_bloc.dart';
+import 'package:homefinder/features/profile/data/profile_data.dart';
+import 'package:homefinder/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:homefinder/features/profile/presentation/bloc/profile_event.dart';
 
 final List<BlocProvider> appBlocProvider = [
   BlocProvider<AuthBloc>(
@@ -19,5 +22,9 @@ final List<BlocProvider> appBlocProvider = [
     create: (context) => RecommendedHomesBloc(
       recommendedHomesRepository: RecommendedHomesData(),
     )..add(FetchRecommendedHomes()),
+  ),
+  BlocProvider<ProfileBloc>(
+    create: (context) =>
+        ProfileBloc(ProfileRepositoryImpl())..add(LoadProfile()),
   ),
 ];
