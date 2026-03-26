@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:homefinder/core/ui/components/app_button.dart';
 import 'package:homefinder/core/ui/components/app_text.dart';
@@ -8,6 +9,10 @@ import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/ui/extensions/app_theme_extension.dart';
 import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/colors.dart';
+import 'package:homefinder/features/profile/domain/profile_domain.dart';
+import 'package:homefinder/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:homefinder/features/profile/presentation/bloc/profile_event.dart';
+import 'package:homefinder/features/profile/presentation/bloc/profile_state.dart';
 import 'package:homefinder/features/profile/presentation/widgets/build_stat.dart';
 
 class UsersAccount extends StatefulWidget {
@@ -20,6 +25,29 @@ class UsersAccount extends StatefulWidget {
 }
 
 class _UsersAccountState extends State<UsersAccount> {
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _locationController = TextEditingController();
+  UserProfile? _currentProfile;
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _locationController.dispose();
+    super.dispose();
+  }
+
+  void _initializeControllers(UserProfile profile) {
+    _fullNameController.text = profile.fullName;
+    _emailController.text = profile.email;
+    _phoneController.text = profile.phoneNumber;
+    _locationController.text = profile.location ?? '';
+    _currentProfile = profile;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -41,132 +69,171 @@ class _UsersAccountState extends State<UsersAccount> {
         ),
         centerTitle: false,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(
-                      'https://images.unsplash.com/photo-1763757321139-e7e4de128cd9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzaG90JTIwYmxhY2slMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D',
-                    ),
-                  ),
-                  16.verticalSpacing,
-                  AppText(
-                    'Arlene McCoy',
-                    style: context.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.kGrey80,
-                    ),
-                  ),
-                  4.verticalSpacing,
-                  buildStat(context),
-                ],
-              ),
-            ),
-            32.verticalSpacing,
-            Form(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //  full name
-                  const AppTextField(
-                    title: 'Full Name',
-                    hintText: 'Arlene McCoy',
-                    keyboardType: TextInputType.name,
-                    prefixIcon: Icon(
-                      FontAwesomeIcons.user,
-                      size: AppIconSize.regular,
-                    ),
-                  ),
-                  16.verticalSpacing,
+      body: BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileLoaded) {
+            _initializeControllers(state.profile);
+          } else if (state is ProfileUpdated) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Profile updated successfully')),
+            );
+          } else if (state is ProfileError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is ProfileLoading && _currentProfile == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-                  //  email address
-                  const AppTextField(
-                    title: 'Email Address',
-                    hintText: 'arlenemccoy@gmail.com',
-                    keyboardType: TextInputType.emailAddress,
-                    prefixIcon: Icon(
-                      FontAwesomeIcons.envelope,
-                      size: AppIconSize.regular,
-                    ),
-                  ),
-                  16.verticalSpacing,
-
-                  //  password
-                  AppTextField(
-                    title: 'Password',
-                    hintText: '*****************',
-                    keyboardType: TextInputType.visiblePassword,
-                    prefixIcon: const Icon(
-                      FontAwesomeIcons.lock,
-                      size: AppIconSize.regular,
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage: NetworkImage(
+                          _currentProfile?.avatarUrl ??
+                              'https://images.unsplash.com/photo-1763757321139-e7e4de128cd9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzaG90JTIwYmxhY2slMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D',
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            // TODO: Implement image upload
+                          },
+                          icon: const Icon(
+                            Icons.camera_alt_outlined,
+                            size: 50,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
+                      16.verticalSpacing,
+                      AppText(
+                        _currentProfile?.fullName ?? '...',
+                        style: context.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.kGrey80,
+                        ),
+                      ),
+                      4.verticalSpacing,
+                      buildStat(context),
+                    ],
+                  ),
+                ),
+                32.verticalSpacing,
+                Form(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppTextField(
+                        controller: _fullNameController,
+                        title: 'Full Name',
+                        hintText: 'Enter your full name',
+                        keyboardType: TextInputType.name,
+                        prefixIcon: const Icon(
+                          FontAwesomeIcons.user,
+                          size: AppIconSize.regular,
+                        ),
+                      ),
+                      16.verticalSpacing,
+                      AppTextField(
+                        controller: _emailController,
+                        title: 'Email Address',
+                        hintText: 'Enter your email',
+                        keyboardType: TextInputType.emailAddress,
+                        prefixIcon: const Icon(
+                          FontAwesomeIcons.envelope,
+                          size: AppIconSize.regular,
+                        ),
+                      ),
+                      16.verticalSpacing,
+                      AppTextField(
+                        title: 'Password',
+                        hintText: '*****************',
+                        keyboardType: TextInputType.visiblePassword,
+                        prefixIcon: const Icon(
+                          FontAwesomeIcons.lock,
+                          size: AppIconSize.regular,
+                        ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppText(
+                                'Change',
+                                style: context.textTheme.bodySmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.kPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      16.verticalSpacing,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          AppTextField(
+                            controller: _phoneController,
+                            title: 'Phone Number',
+                            hintText: '9000-000-000',
+                            keyboardType: TextInputType.phone,
+                            prefixIcon: const Icon(Icons.phone),
+                          ),
+                          8.verticalSpacing,
                           AppText(
-                            'Change',
+                            'You won’t be able to call landlord if this is empty',
                             style: context.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.kPrimary,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.kGrey40,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-
-                  16.verticalSpacing,
-
-                  //  phone number
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const AppTextField(
-                        title: 'Phone Number',
-                        hintText: '9000-000-000',
-                        keyboardType: TextInputType.phone,
-                        prefixIcon: Icon(Icons.phone),
+                      16.verticalSpacing,
+                      AppTextField(
+                        controller: _locationController,
+                        title: 'Location',
+                        hintText: 'Lagos, Nigeria',
+                        prefixIcon: const Icon(Icons.location_on),
+                        suffixIcon: const Icon(Icons.map_outlined),
                       ),
-                      8.verticalSpacing,
-                      AppText(
-                        'You won’t be able to call landlord if this is empty',
-                        style: context.textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.kGrey40,
-                        ),
+                      32.verticalSpacing,
+                      PrimaryButton(
+                        'Save changes',
+                        loading: state is ProfileLoading,
+                        pressed: () {
+                          if (_currentProfile != null) {
+                            final updatedProfile = _currentProfile!.copyWith(
+                              fullName: _fullNameController.text,
+                              email: _emailController.text,
+                              phoneNumber: _phoneController.text,
+                              location: _locationController.text,
+                            );
+                            context.read<ProfileBloc>().add(
+                              UpdateProfile(updatedProfile),
+                            );
+                          }
+                        },
                       ),
+                      24.verticalSpacing,
                     ],
                   ),
-
-                  16.verticalSpacing,
-                  const AppTextField(
-                    title: 'Location',
-                    hintText: 'Lagos, Nigeria',
-                    prefixIcon: Icon(Icons.location_on),
-                    suffixIcon: Icon(Icons.map_outlined),
-                  ),
-                  32.verticalSpacing,
-
-                  PrimaryButton(
-                    'Save changes',
-                    pressed: () {},
-                  ),
-                  24.verticalSpacing,
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
