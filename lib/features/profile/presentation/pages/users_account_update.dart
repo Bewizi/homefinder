@@ -113,12 +113,20 @@ class _UsersAccountState extends State<UsersAccount> {
                         ),
                       ),
                       16.verticalSpacing,
-                      AppText(
-                        _currentProfile?.fullName ?? '...',
-                        style: context.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.kGrey80,
-                        ),
+                      BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, state) {
+                          if (state is ProfileLoaded) {
+                            _initializeControllers(state.profile);
+                          }
+
+                          return AppText(
+                            _currentProfile?.fullName ?? 'User',
+                            style: context.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.kGrey80,
+                            ),
+                          );
+                        },
                       ),
                       4.verticalSpacing,
                       buildStat(context),
