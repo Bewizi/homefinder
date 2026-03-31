@@ -11,13 +11,19 @@ import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
 import 'package:homefinder/features/auth/presentaion/auth_bloc/auth_bloc.dart';
 import 'package:homefinder/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:homefinder/features/profile/presentation/bloc/profile_event.dart';
 import 'package:homefinder/features/profile/presentation/bloc/profile_state.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   static const String routeName = '/profile';
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   static const List<Map<String, dynamic>> profileOptions = [
     {
       'icon': Icons.person_outline,
@@ -46,6 +52,13 @@ class ProfilePage extends StatelessWidget {
       'textColor': AppColors.kDestructive50,
     },
   ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<ProfileBloc>().add(LoadProfile());
+  }
 
   @override
   Widget build(BuildContext context) {
