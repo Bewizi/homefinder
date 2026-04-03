@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,6 +16,8 @@ import 'package:homefinder/features/profile/presentation/bloc/profile_bloc.dart'
 import 'package:homefinder/features/profile/presentation/bloc/profile_event.dart';
 import 'package:homefinder/features/profile/presentation/bloc/profile_state.dart';
 import 'package:homefinder/features/profile/presentation/widgets/build_stat.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UsersAccount extends StatefulWidget {
   const UsersAccount({super.key});
@@ -46,6 +50,67 @@ class _UsersAccountState extends State<UsersAccount> {
     _phoneController.text = profile.phoneNumber;
     _locationController.text = profile.location ?? '';
     _currentProfile = profile;
+  }
+
+  File? _imageFile;
+
+  // pick image
+  Future<void> pickImage() async {
+    //   picker
+    final picker = ImagePicker();
+
+    // pick from gallery
+    final image = await picker.pickImage(source: ImageSource.gallery);
+
+    //   update image preview
+    if (image != null) {
+      setState(() {
+        _imageFile = File(image.path);
+      });
+    }
+  }
+
+  // upload image
+  Future<void> uploadImage() async {
+    if (_imageFile == null) return;
+
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) return;
+
+    //   generate a unique file path
+    final fileName = '${user.id}_${DateTime.now().millisecondsSinceEpoch}';
+    final filePath = 'profile/$fileName';
+
+    try {
+      //   upload image to supabase storage
+      await Supabase.instance.client.storage
+          // to this bucket
+          .from('images')
+          .upload(filePath, _imageFile!);
+
+      // Get the public URL of the uploaded image
+      final ImageUrl = Supabase.instance.client.storage
+          .from('images')
+          .getPublicUrl(filePath);
+
+      if (mounted) {
+        setState(() {
+          _currentProfile = _currentProfile?.copyWith(
+            avatarUrl: ImageUrl,
+          );
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Image uploaded successfully')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error uploading image: $e')));
+      }
+    }
   }
 
   @override
@@ -91,47 +156,64 @@ class _UsersAccountState extends State<UsersAccount> {
           return SingleChildScrollView(
             child: Column(
               children: [
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(
-                          _currentProfile?.avatarUrl ??
-                              'https://images.unsplash.com/photo-1763757321139-e7e4de128cd9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzaG90JTIwYmxhY2slMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D',
-                        ),
-                        child: IconButton(
-                          onPressed: () {
-                            // TODO: Implement image upload
-                          },
-                          icon: const Icon(
-                            Icons.camera_alt_outlined,
-                            size: 50,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      16.verticalSpacing,
-                      BlocBuilder<ProfileBloc, ProfileState>(
-                        builder: (context, state) {
-                          if (state is ProfileLoaded) {
-                            _initializeControllers(state.profile);
-                          }
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    if (state is ProfileInitial || state is ProfileLoading) {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 40),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
 
-                          return AppText(
-                            _currentProfile?.fullName ?? 'User',
-                            style: context.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.kGrey80,
+                    if (state is ProfileError) {
+                      return Center(child: AppText(state.message));
+                    }
+
+                    if (state is ProfileLoaded) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundImage: _imageFile != null
+                                  ? FileImage(_imageFile!)
+                                  : NetworkImage(
+                                          _currentProfile?.avatarUrl ??
+                                              'https://images.unsplash.com/photo-1763757321139-e7e4de128cd9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzaG90JTIwYmxhY2slMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D',
+                                        )
+                                        as ImageProvider,
+                              child: IconButton(
+                                onPressed: () async {
+                                  await pickImage();
+
+                                  await uploadImage();
+                                },
+                                icon: const Icon(
+                                  Icons.camera_alt_outlined,
+                                  size: 50,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                          );
-                        },
-                      ),
-                      4.verticalSpacing,
-                      buildStat(context),
-                    ],
-                  ),
+                            16.verticalSpacing,
+
+                            AppText(
+                              _currentProfile?.fullName ?? 'User',
+                              style: context.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.kGrey80,
+                              ),
+                            ),
+                            4.verticalSpacing,
+                            buildStat(context),
+                          ],
+                        ),
+                      );
+                    }
+
+                    return const SizedBox.shrink();
+                  },
                 ),
                 32.verticalSpacing,
                 Form(
