@@ -151,20 +151,36 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const AppText('Logout'),
-        content: const AppText('Are you sure you want to logout?'),
+        content: AppText(
+          'Are you sure you want to logout?',
+          style: context.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w700,
+            color: AppColors.kGrey80,
+          ),
+        ),
         actions: [
           TextButton(
+            isSemanticButton: false,
             onPressed: () => Navigator.pop(context),
-            child: const AppText('Cancel'),
+            child: AppText(
+              'Cancel',
+              style: context.textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.kGrey80,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               context.read<AuthBloc>().add(Logout());
             },
-            child: const AppText(
+            child: AppText(
               'Logout',
-              style: TextStyle(color: Colors.red),
+              style: context.textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.kDestructive50,
+              ),
             ),
           ),
         ],
