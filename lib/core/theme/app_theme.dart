@@ -22,5 +22,10 @@ class AppTheme {
       surface: AppColors.kWhite,
       onSurface: AppColors.kGrey70,
     ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        overlayColor: WidgetStateProperty.all(AppColors.kTransparent),
+      ),
+    ),
   );
 }
