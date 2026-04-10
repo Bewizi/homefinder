@@ -172,6 +172,7 @@ class _HomeScreenState extends State<HomeScreen> with AccessLocation {
                     setState(() {
                       activeIndex = index;
                     });
+                    context.read<HomesBloc>().add(FilterHomesByType(item));
                   },
                 );
               },
