@@ -6,6 +6,7 @@ import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/ui/extensions/app_spacing_extension.dart';
 import 'package:homefinder/core/ui/extensions/app_theme_extension.dart';
+import 'package:homefinder/core/ui/extensions/string_extension.dart';
 import 'package:homefinder/core/variables/app_iconsize.dart';
 import 'package:homefinder/core/variables/app_radius.dart';
 import 'package:homefinder/core/variables/colors.dart';
@@ -180,7 +181,7 @@ class _ApartmentViewState extends State<ApartmentView> {
                       // Centered Navigation Arrows
                       Positioned.fill(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -256,7 +257,7 @@ class _ApartmentViewState extends State<ApartmentView> {
                                   ),
                                 ),
                                 child: AppText(
-                                  apartment.type,
+                                  apartment.type.toCapitalized(),
                                   style: context.textTheme.bodySmall?.copyWith(
                                     color: AppColors.kPrimary,
                                     fontWeight: FontWeight.w600,
