@@ -26,3 +26,12 @@ class ToggleFavorite extends HomesEvent {
   @override
   List<Object> get props => [homeId];
 }
+
+class FilterHomesByType extends HomesEvent {
+  final String? type;
+
+  const FilterHomesByType(this.type);
+
+  @override
+  List<Object> get props => [type ?? 'All'];
+}

@@ -13,6 +13,7 @@ class HomesBloc extends Bloc<HomesEvent, HomesState> {
     on<FetchHomes>(_onFetchHomes);
     on<SearchHomes>(_onSearchHomes);
     on<ToggleFavorite>(_onToggleFavorite);
+    on<FilterHomesByType>(_onFilterHomesByType);
   }
 
   final HomesRepository _homesRepository;
@@ -25,6 +26,17 @@ class HomesBloc extends Bloc<HomesEvent, HomesState> {
       emit(HomesLoaded(_allHomes));
     } on Exception catch (e) {
       emit(HomesError(e.toString()));
+    }
+  }
+
+  void _onFilterHomesByType(FilterHomesByType event, Emitter<HomesState> emit) {
+    if (event.type == null || event.type == 'All') {
+      emit(HomesLoaded(_allHomes));
+    } else {
+      final filteredHomes = _allHomes
+          .where((home) => home.type.toLowerCase() == event.type!.toLowerCase())
+          .toList();
+      emit(HomesLoaded(filteredHomes));
     }
   }
 
