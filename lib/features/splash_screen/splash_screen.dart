@@ -4,6 +4,7 @@ import 'package:homefinder/core/ui/components/app_text.dart';
 import 'package:homefinder/core/ui/components/layouts/app_scaffold.dart';
 import 'package:homefinder/core/variables/app_images.dart';
 import 'package:homefinder/core/variables/colors.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,7 +24,12 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 5),
       () {
         if (mounted) {
-          GetStartedRoute().go(context);
+          final session = Supabase.instance.client.auth.currentSession;
+          if (session != null) {
+            HomeRoute().go(context);
+          } else {
+            GetStartedRoute().go(context);
+          }
         }
       },
     );
