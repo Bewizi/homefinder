@@ -33,7 +33,7 @@ dev_dependencies:
   bloc_lint: ">=0.3.3 <0.3.6"
   bloc_test: ^10.0.0
   bloc_tools: ^0.1.0-dev.20
-  build_runner: ^2.11.1
+  build_runner: ^2.12.2
   cached_network_image: ^3.4.1
   flutter_launcher_icons: ^0.14.4
   flutter_test:
