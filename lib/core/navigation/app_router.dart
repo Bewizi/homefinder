@@ -19,12 +19,22 @@ import 'package:homefinder/features/profile/presentation/pages/settings.dart';
 import 'package:homefinder/features/profile/presentation/pages/users_account_update.dart';
 import 'package:homefinder/features/saved/presentation/pages/saved_page.dart';
 import 'package:homefinder/features/splash_screen/splash_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'app_router.g.dart';
 
 final appRouter = GoRouter(
   routes: $appRoutes,
   initialLocation: SplashScreenRoute.path,
+  redirect: (context, state) {
+    final session = Supabase.instance.client.auth.currentSession;
+    final bool loggedIn = session != null;
+
+    if (loggedIn && state.matchedLocation == SplashScreenRoute.path) {
+      return '/home';
+    }
+    return null;
+  },
 );
 
 // entry point
